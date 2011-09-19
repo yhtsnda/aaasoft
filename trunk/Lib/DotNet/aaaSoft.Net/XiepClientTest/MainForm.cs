@@ -26,7 +26,7 @@ namespace XiepClientTest
             xcClient.ServerDisconnected += new EventHandler<EventArgs>(xcClient_ServerDisconnected);
             try
             {
-                xcClient.start();
+                xcClient.Start();
             }
             catch (Exception ex)
             {
@@ -42,7 +42,7 @@ namespace XiepClientTest
         void xcClient_ServerEventCame(object sender, XiepClientEventArgs e)
         {
             var eventPackage = e.getEventPackage();
-            PushLog("收到服务器事件：" + eventPackage.getEvent());
+            PushLog("收到服务器事件：" + eventPackage.Event);
         }
 
         private void PushLog(String logText)
@@ -69,7 +69,7 @@ namespace XiepClientTest
                 }
                 else
                 {
-                    PushLog("接收到响应:" + responsePackage.getResponse());
+                    PushLog("接收到响应:" + responsePackage.Response);
                     txtRequest.Clear();
                 }
             }
@@ -82,7 +82,7 @@ namespace XiepClientTest
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (xcClient != null)
-                xcClient.stop();
+                xcClient.Stop();
         }
     }
 }
