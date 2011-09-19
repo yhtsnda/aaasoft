@@ -27,14 +27,14 @@ namespace XiepServerTest
             xsServer.ClientConnected += new EventHandler<ClientConnectedArgs>(xsServer_ClientConnected);
             xsServer.ClientDisconnected += new EventHandler<ClientConnectionInfoArgs>(xsServer_ClientDisconnected);
             xsServer.ReceiveRequest += new EventHandler<ReceiveRequestArgs>(xsServer_ReceiveRequest);
-            xsServer.start();
+            xsServer.Start();
             PushLog("已开启服务");
         }
 
         void xsServer_ReceiveRequest(object sender, ReceiveRequestArgs e)
         {
             var requestPackage = e.getRequestPackage();
-            PushLog("收到请求:" + requestPackage.getRequest());
+            PushLog("收到请求:" + requestPackage.Request);
             e.setResponsePackage(new ResponsePackage(e.getRequestPackage(), "THISISRESPONSE"));
         }
 
@@ -47,7 +47,7 @@ namespace XiepServerTest
         {
             var dict = new Dictionary<string, string>();
             EventPackage eventPackage = new EventPackage("Welcome");
-            eventPackage.addArgument("NowTime", DateTime.Now.ToString());
+            eventPackage.AddArgument("NowTime", DateTime.Now.ToString());
             e.setEventPackage(eventPackage);
         }
 
@@ -65,13 +65,13 @@ namespace XiepServerTest
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            xsServer.stop();
+            xsServer.Stop();
         }
 
         private void btnBroadcastNotice_Click(object sender, EventArgs e)
         {
             var eventPackage = new EventPackage(txtNotice.Text.Trim());
-            foreach (var socket in xsServer.getConnectedClientList())
+            foreach (var socket in xsServer.ConnectedClientList)
             {
                 xsServer.SendEvent(new NetworkStream(socket), eventPackage);
             }
