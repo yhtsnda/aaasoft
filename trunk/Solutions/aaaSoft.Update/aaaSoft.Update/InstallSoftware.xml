@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<aaaSoft.Updater>
+  <UpdateApiUrl>http://update.sccin.com/</UpdateApiUrl>
+  <Action>Install</Action>
+  <Folder>D:\Program Files\aaaSoft\集群服务器文件同步分发器</Folder>
+  <AboutUsText>如果您想了解最新软件发布动态，请访问</AboutUsText>
+  <AboutUsName>YP软件实验室</AboutUsName>
+  <AboutUsUrl>http://lab.sccin.com</AboutUsUrl>
+  <!--
+  <ProxySetting>
+    <ProxyHost>192.168.0.1</ProxyHost>
+    <ProxyPort>8372</ProxyPort>
+    <ProxyUserName>admin</ProxyUserName>
+    <ProxyPassword>123</ProxyPassword>
+    <ProxyDomain>127.0.0.1</ProxyDomain>
+  </ProxySetting>
+  -->
+  <SoftwareList>
+    <Software>
+      <Name>集群服务器文件同步分发器</Name>
+    </Software>
+  </SoftwareList>
+</aaaSoft.Updater>
