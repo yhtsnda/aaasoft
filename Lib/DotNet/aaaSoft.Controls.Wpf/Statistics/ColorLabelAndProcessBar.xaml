@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="aaaSoft.Controls.WPF.Statistics.ColorLabelAndProcessBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:aaaSoft.Controls.WPF.Statistics"
+             xmlns:converts ="clr-namespace:aaaSoft.Controls.Wpf.Statistics.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="20" d:DesignWidth="96" Loaded="UserControl_Loaded" SizeChanged="UserControl_SizeChanged">
+    <UserControl.Resources>
+        <converts:ProcessTextConverter x:Key="processTextConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" HorizontalAlignment="Right" Name="lblProcessText" Text="13%" VerticalAlignment="Center" />
+        <Grid Name="gridBack" Grid.Column="1" Background="#EEEEEE" Margin="2" />
+        <Grid HorizontalAlignment="Left" Name="gridFront" Width="23" Grid.Column="1" Background="#28AB17" Margin="2" />
+    </Grid>
+</UserControl>

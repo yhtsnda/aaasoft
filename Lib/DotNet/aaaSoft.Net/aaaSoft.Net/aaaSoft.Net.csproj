@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{23E932F7-A8BE-42D3-886B-A16459C2C4A2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>aaaSoft.Net</RootNamespace>
+    <AssemblyName>aaaSoft.Net</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Base\EventArgs\NewTcpConnectedArgs.cs" />
+    <Compile Include="Base\EventArgs\NewUdpConnectedArgs.cs" />
+    <Compile Include="Ftp\Core\FtpCommandData.cs" />
+    <Compile Include="Ftp\FtpBaseFileInfo.cs" />
+    <Compile Include="Ftp\FtpClient.cs" />
+    <Compile Include="Ftp\ListAnalyzer\FtpListAnalyzer.cs" />
+    <Compile Include="Ftp\ListAnalyzer\MicrosoftFtpListAnalyzer.cs" />
+    <Compile Include="Ftp\ListAnalyzer\MlsdLineAnalyzer.cs" />
+    <Compile Include="Ftp\ListAnalyzer\ServuFtpListAnalyzer.cs" />
+    <Compile Include="Http\HttpClient.cs" />
+    <Compile Include="Http\HttpServer.cs" />
+    <Compile Include="Http\HttpSpider.cs" />
+    <Compile Include="Base\TcpIpServer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Xiep\EventArgs\AfterSendResponseArgs.cs" />
+    <Compile Include="Xiep\EventArgs\ClientConnectedArgs.cs" />
+    <Compile Include="Xiep\EventArgs\ClientConnectionInfoArgs.cs" />
+    <Compile Include="Xiep\EventArgs\DebugInfoArgs.cs" />
+    <Compile Include="Xiep\EventArgs\ReceiveRequestArgs.cs" />
+    <Compile Include="Xiep\EventArgs\XiepClientEventArgs.cs" />
+    <Compile Include="Xiep\Handlers\AbstractEventHandler.cs" />
+    <Compile Include="Xiep\Handlers\AbstractRequestHandler.cs" />
+    <Compile Include="Xiep\Handlers\XiepPingRequestHandler.cs" />
+    <Compile Include="Xiep\Packages\AbstractXiepPackage.cs" />
+    <Compile Include="Xiep\Packages\EventPackage.cs" />
+    <Compile Include="Xiep\Packages\RequestPackage.cs" />
+    <Compile Include="Xiep\Packages\ResponsePackage.cs" />
+    <Compile Include="Xiep\XiepClient.cs" />
+    <Compile Include="Xiep\Helpers\XiepIoHelper.cs" />
+    <Compile Include="Xiep\XiepServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\aaaSoft.Helpers\aaaSoft.Helpers.csproj">
+      <Project>{12334CDF-B370-40BF-A1C2-7D884B0B19E1}</Project>
+      <Name>aaaSoft.Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

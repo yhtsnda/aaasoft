@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Skin>
+  <SkinName>QQ游戏</SkinName>
+  <SkinAuthor>aaaSoft</SkinAuthor>
+  <SkinPS>http://www.scbeta.com</SkinPS>
+  <SkinMakeDateTime>2010-4-13</SkinMakeDateTime>
+  <Setting>
+    <Base>
+      <BackColor>126, 167, 213</BackColor>
+    </Base>
+    <Form>
+      <LeftBorderWidth>6</LeftBorderWidth>
+      <RightBorderWidth>6</RightBorderWidth>
+      <TopBorderHeight>6</TopBorderHeight>
+      <BottomBorderHeight>6</BottomBorderHeight>
+      <TopicHeight>22</TopicHeight>
+      <SystemButtonOffsetWhenMaxmize>3</SystemButtonOffsetWhenMaxmize>
+      <FormBackColor>248,249,253</FormBackColor>
+      <FormStateCount>1</FormStateCount>
+      <IconSize>16,16</IconSize>
+      <TitleTextColor>255,255,255</TitleTextColor>
+      <TitleTextAlign>0</TitleTextAlign>
+      <TitleTextFont>黑体,12</TitleTextFont>
+    </Form>
+    <Button>
+      <LeftBorderWidth>4</LeftBorderWidth>
+      <RightBorderWidth>4</RightBorderWidth>
+      <TopBorderHeight>4</TopBorderHeight>
+      <BottomBorderHeight>4</BottomBorderHeight>
+      <ButtonTextColor>255,255,255</ButtonTextColor>
+      <ButtonDisableTextColor>169,169,169</ButtonDisableTextColor>
+    </Button>
+    <HScrollBar>
+      <LeftBorderWidth>2</LeftBorderWidth>
+      <RightBorderWidth>2</RightBorderWidth>
+      <TopBorderHeight>2</TopBorderHeight>
+      <BottomBorderHeight>2</BottomBorderHeight>
+      <ScrollButtonMinWidth>15</ScrollButtonMinWidth>
+    </HScrollBar>
+    <VScrollBar>
+      <LeftBorderWidth>2</LeftBorderWidth>
+      <RightBorderWidth>2</RightBorderWidth>
+      <TopBorderHeight>2</TopBorderHeight>
+      <BottomBorderHeight>2</BottomBorderHeight>
+      <ScrollButtonMinHeight>15</ScrollButtonMinHeight>
+    </VScrollBar>
+  </Setting>
+</Skin>
