@@ -47,6 +47,7 @@
     <Compile Include="DateTimeHelper.cs" />
     <Compile Include="FormHelper.cs" />
     <Compile Include="FtpHelper.cs" />
+    <Compile Include="GlobalizationHelper.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="InputForm.cs">
       <SubType>Form</SubType>
