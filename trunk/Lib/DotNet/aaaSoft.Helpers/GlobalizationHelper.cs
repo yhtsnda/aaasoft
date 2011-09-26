@@ -8,6 +8,9 @@ using System.Resources;
 
 namespace aaaSoft.Helpers
 {
+    /// <summary>
+    /// 国际化辅助类
+    /// </summary>
     public class GlobalizationHelper
     {
         private List<Control> managedControlList;
@@ -82,12 +85,13 @@ namespace aaaSoft.Helpers
 
         private void changeCultureCore(Control control, CultureInfo culture)
         {
-            //循环子控件
+            //递归子控件
             foreach (Control subControl in control.Controls)
             {
                 changeCultureCore(subControl, culture);
             }
 
+            //如果Tag属性中没有包括资源占位符
             if (control.Tag == null
                 || !(control.Tag is String)
                 || String.IsNullOrEmpty(control.Tag as String)
@@ -96,6 +100,7 @@ namespace aaaSoft.Helpers
                 return;
             }
 
+            //替换资源名称占位符为资源值
             StringBuilder sb = new StringBuilder(control.Tag.ToString());
             while (true)
             {
@@ -116,8 +121,9 @@ namespace aaaSoft.Helpers
                     break;
                 }
             }
-
-            
+            //===============
+            //设置资源
+            //===============
             if (control is Form
                 || control is Label)
             {
