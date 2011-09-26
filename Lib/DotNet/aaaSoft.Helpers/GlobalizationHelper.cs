@@ -60,7 +60,7 @@ namespace aaaSoft.Helpers
         public void Init()
         {
             resourceManager = new System.Resources.ResourceManager(ResourceFilePath, ResourceFileAssembly);
-            changeCulture(DefaultCulture);
+            currentCulture = DefaultCulture;
         }
 
         /// <summary>
