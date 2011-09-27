@@ -131,13 +131,16 @@ namespace aaaSoft.Helpers
                 catch
                 {
                     resourceValue = new Bitmap(400, 300);
+                    Rectangle rect = new Rectangle(new Point(0, 0), resourceValue.Size);
+
                     Graphics g = Graphics.FromImage(resourceValue);
+                    g.FillRectangle(Brushes.White, rect);
                     Font font = new Font(FontFamily.GenericMonospace, 16);
 
                     StringFormat sf = new StringFormat();
                     sf.Alignment = StringAlignment.Center;
                     sf.LineAlignment = StringAlignment.Center;
-                    g.DrawString("", font, Brushes.Black, new Rectangle(new Point(0, 0), resourceValue.Size), sf);
+                    g.DrawString(String.Format("{{RESOURCE：{0}}}", resourceName), font, Brushes.Black, rect, sf);
                 }
             }
             return resourceValue;
