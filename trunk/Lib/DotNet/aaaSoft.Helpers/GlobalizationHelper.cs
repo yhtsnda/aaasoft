@@ -89,7 +89,14 @@ namespace aaaSoft.Helpers
             }
             catch
             {
-                resourceValue = String.Format("{{RESOURCE：{0}}}", resourceName);
+                try
+                {
+                    resourceValue = resourceManager.GetString(resourceName, DefaultCulture);
+                }
+                catch
+                {
+                    resourceValue = String.Format("{{RESOURCE：{0}}}", resourceName);
+                }
             }
             return resourceValue;
         }
@@ -117,14 +124,21 @@ namespace aaaSoft.Helpers
             }
             catch
             {
-                resourceValue = new Bitmap(400, 300);
-                Graphics g = Graphics.FromImage(resourceValue);
-                Font font = new Font(FontFamily.GenericMonospace, 16);
+                try
+                {
+                    resourceValue = (Image)resourceManager.GetObject(resourceName, DefaultCulture);
+                }
+                catch
+                {
+                    resourceValue = new Bitmap(400, 300);
+                    Graphics g = Graphics.FromImage(resourceValue);
+                    Font font = new Font(FontFamily.GenericMonospace, 16);
 
-                StringFormat sf = new StringFormat();
-                sf.Alignment = StringAlignment.Center;
-                sf.LineAlignment = StringAlignment.Center;
-                g.DrawString("", font, Brushes.Black, new Rectangle(new Point(0, 0), resourceValue.Size), sf);
+                    StringFormat sf = new StringFormat();
+                    sf.Alignment = StringAlignment.Center;
+                    sf.LineAlignment = StringAlignment.Center;
+                    g.DrawString("", font, Brushes.Black, new Rectangle(new Point(0, 0), resourceValue.Size), sf);
+                }
             }
             return resourceValue;
         }
