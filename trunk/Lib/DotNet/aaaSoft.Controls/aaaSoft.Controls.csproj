@@ -55,6 +55,12 @@
     <Compile Include="FlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Globalization\LanguageSwitchBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Globalization\LanguageSwitchBar.Designer.cs">
+      <DependentUpon>LanguageSwitchBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\ListViewHelper.cs" />
     <Compile Include="ListView.cs">
       <SubType>Component</SubType>
@@ -123,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FileBrowser.resx">
       <DependentUpon>FileBrowser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Globalization\LanguageSwitchBar.resx">
+      <DependentUpon>LanguageSwitchBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

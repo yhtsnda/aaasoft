@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Resources;
+using System.Drawing;
 
 namespace aaaSoft.Helpers
 {
@@ -60,7 +61,72 @@ namespace aaaSoft.Helpers
         public void Init()
         {
             resourceManager = new System.Resources.ResourceManager(ResourceFilePath, ResourceFileAssembly);
-            currentCulture = DefaultCulture;
+            CurrentCulture = DefaultCulture;
+        }
+
+        /// <summary>
+        /// 得到资源字符串
+        /// </summary>
+        /// <param name="resourceName"></param>
+        /// <returns></returns>
+        public String GetString(String resourceName)
+        {
+            return GetString(resourceName, CurrentCulture);
+        }
+
+        /// <summary>
+        /// 得到资源字符串
+        /// </summary>
+        /// <param name="resourceName"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
+        public String GetString(String resourceName, CultureInfo culture)
+        {
+            String resourceValue;
+            try
+            {
+                resourceValue = resourceManager.GetString(resourceName, culture);
+            }
+            catch
+            {
+                resourceValue = String.Format("{{RESOURCE：{0}}}", resourceName);
+            }
+            return resourceValue;
+        }
+        /// <summary>
+        /// 得到资源图片
+        /// </summary>
+        /// <param name="resourceName"></param>
+        /// <returns></returns>
+        public Image GetImage(String resourceName)
+        {
+            return GetImage(resourceName, CurrentCulture);
+        }
+        /// <summary>
+        /// 得到资源图片
+        /// </summary>
+        /// <param name="resourceName"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
+        public Image GetImage(String resourceName, CultureInfo culture)
+        {
+            Image resourceValue;
+            try
+            {
+                resourceValue = (Image)resourceManager.GetObject(resourceName, culture);
+            }
+            catch
+            {
+                resourceValue = new Bitmap(400, 300);
+                Graphics g = Graphics.FromImage(resourceValue);
+                Font font = new Font(FontFamily.GenericMonospace, 16);
+
+                StringFormat sf = new StringFormat();
+                sf.Alignment = StringAlignment.Center;
+                sf.LineAlignment = StringAlignment.Center;
+                g.DrawString("", font, Brushes.Black, new Rectangle(new Point(0, 0), resourceValue.Size), sf);
+            }
+            return resourceValue;
         }
 
         /// <summary>
@@ -108,12 +174,7 @@ namespace aaaSoft.Helpers
                 if (currentText.Contains("${"))
                 {
                     String resourceName = StringHelper.GetMiddleString(sb.ToString(), "${", "}", false);
-                    String resourceValue = "{NeedResource}";
-                    try
-                    {
-                        resourceValue = resourceManager.GetString(resourceName, culture);
-                    }
-                    catch { }
+                    String resourceValue = this.GetString(resourceName, culture);
                     sb.Replace("${" + resourceName + "}", resourceValue);
                 }
                 else
