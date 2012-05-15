@@ -120,6 +120,8 @@
         	this.fswWebFolder.IncludeSubdirectories = true;
         	this.fswWebFolder.SynchronizingObject = this;
         	this.fswWebFolder.Changed += new System.IO.FileSystemEventHandler(this.fswWebFolder_Changed);
+        	this.fswWebFolder.Created += new System.IO.FileSystemEventHandler(this.fswWebFolder_Changed);
+        	this.fswWebFolder.Deleted += new System.IO.FileSystemEventHandler(this.fswWebFolder_Changed);
         	// 
         	// txtWebRootUrl
         	// 
