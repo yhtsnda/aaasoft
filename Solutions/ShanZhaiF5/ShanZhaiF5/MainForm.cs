@@ -301,7 +301,14 @@ window.setInterval(SHANZHAIF5_CheckPageModifyTime,1000);
 
         private void btnAbout_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("此程序是根据F5(http://getf5.com)的视频编写的，其创意归原作者所有。本程序仅作学习交流之用途。如有疑问请给我发Email:scbeta@qq.com。2011-9-14 12:04", "关于 山寨F5");
+            MessageBox.Show(@"
+          ****说明：2012-5-15 11:07****
+* 自动保存最后一次工作目录
+* 选择工作目录后可以点击右上角按钮更换工作目录
+* 修复程序访问资源文件后独占文件的BUG
+
+          ****说明：2011-9-14 12:04****
+此程序是根据F5(http://getf5.com)的视频编写的，其创意归原作者所有。本程序仅作学习交流之用途。如有疑问请给我发Email:scbeta@qq.com。", "关于 山寨F5");
         }
 
         private void tvFile_MouseDown(object sender, MouseEventArgs e)
