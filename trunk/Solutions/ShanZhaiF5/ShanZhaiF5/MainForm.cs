@@ -21,10 +21,17 @@ namespace ShanZhaiF5
         //最后修改时间
         private DateTime lastModifyTime = DateTime.Now;
         private HttpServer httpServer;
+        //最后的目录路径
+        private String lastFolderPath;
+        //配置文件路径
+        private String configFilePath = Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments),"aaaSoft/ShanZhaiF5/config.xml");
+        
         public MainForm()
         {
             InitializeComponent();
         }
+        
+        
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -60,6 +67,15 @@ namespace ShanZhaiF5
                 httpServer.Start();
             }
             txtWebRootUrl.Text = httpServer.GetWebRootUrl();
+            
+            //读取配置文件
+            if(File.Exists(configFilePath)){
+            	String xml = File.ReadAllText(configFilePath,Encoding.UTF8);
+            	XmlTreeNode rootNode = XmlTreeNode.FromXml(xml);
+            	String tmpStr = rootNode.GetItemValue("LastFolderPath");
+            	if(!String.IsNullOrEmpty(tmpStr))
+            		openFolder(tmpStr);
+            }
         }
 
         void httpServer_BeforeWriteResponse(object sender, HttpServer.BeforeWriteResponseEventArgs e)
@@ -146,6 +162,14 @@ window.setInterval(SHANZHAIF5_CheckPageModifyTime,1000);
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             httpServer.Stop();
+            //保存配置文件
+            XmlTreeNode rootNode = new XmlTreeNode("root");
+            rootNode.AddItem("LastFolderPath",lastFolderPath);
+            Encoding utf8Encoding = new UTF8Encoding(false);
+            String xml = rootNode.ToXml(utf8Encoding);
+            IoHelper.CreateMultiFolder(Path.GetDirectoryName(configFilePath));
+            File.WriteAllText(configFilePath,xml,Encoding.UTF8);
+            
             Environment.Exit(0);
         }
 
@@ -191,6 +215,8 @@ window.setInterval(SHANZHAIF5_CheckPageModifyTime,1000);
 
         private void openFolder(String webRootPath)
         {
+        	lastFolderPath = webRootPath;
+        	lblCurrentFolderPath.Text = "当前路径：" + webRootPath;
             httpServer.RootFolderPath = webRootPath;
             System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(webRootPath);
             tvFile.Nodes.Clear();
@@ -204,6 +230,8 @@ window.setInterval(SHANZHAIF5_CheckPageModifyTime,1000);
 
             lblTip.Visible = false;
             tvFile.Visible = true;
+            lblCurrentFolderPath.Visible = true;
+            btnChangeFolder.Visible  = true;
         }
 
         private void addFolder(System.IO.DirectoryInfo directoryInfo, TreeNodeCollection nodes)
@@ -258,6 +286,12 @@ window.setInterval(SHANZHAIF5_CheckPageModifyTime,1000);
         {
             //刷新最后更改时间
             refreshLashModifyTime();
+            
+            
+            //更新列表
+            tvFile.Nodes.Clear();
+            DirectoryInfo dir = new DirectoryInfo(lastFolderPath);
+            addFolder(dir, tvFile.Nodes);
         }
 
         private void btnGo_Click(object sender, EventArgs e)
@@ -289,6 +323,11 @@ window.setInterval(SHANZHAIF5_CheckPageModifyTime,1000);
         private void 在浏览器中访问ToolStripMenuItem_Click(object sender, EventArgs e)
         {          
             Process.Start(httpServer.GetWebRootUrl() + tvFile.SelectedNode.FullPath);
+        }
+        
+        void BtnChangeFolderClick(object sender, EventArgs e)
+        {
+        	lblTip_Click(sender,e);
         }
     }
 }
