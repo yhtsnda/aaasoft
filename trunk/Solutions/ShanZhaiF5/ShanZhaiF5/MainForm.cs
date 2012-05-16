@@ -106,6 +106,8 @@ namespace ShanZhaiF5
 
                     sb.Append(@"
 <script>
+var SHANZHAIF5_XmlHttp = SHANZHAIF5_GetXmlHttpObject();
+window.setInterval(SHANZHAIF5_CheckPageModifyTime,1000);
 function SHANZHAIF5_GetXmlHttpObject(){
     var xmlHttp=null;
     try{
@@ -122,11 +124,10 @@ function SHANZHAIF5_GetXmlHttpObject(){
     return xmlHttp;
 }
 function SHANZHAIF5_CheckPageModifyTime(){
-    var xmlHttp = SHANZHAIF5_GetXmlHttpObject();
-    xmlHttp.onreadystatechange = function(){
-        if (xmlHttp.readyState == 4){
-            if (xmlHttp.status == 200){
-                var datas = xmlHttp.responseXML.getElementsByTagName('LastModifyTime');
+    SHANZHAIF5_XmlHttp.onreadystatechange = function(){
+        if (SHANZHAIF5_XmlHttp.readyState == 4){
+            if (SHANZHAIF5_XmlHttp.status == 200){
+                var datas = SHANZHAIF5_XmlHttp.responseXML.getElementsByTagName('LastModifyTime');
                 var serverLastModifyTime = datas[0].childNodes[0].nodeValue;
                 if(clientLastModifyTime != serverLastModifyTime){
                     location.reload();
@@ -134,11 +135,10 @@ function SHANZHAIF5_CheckPageModifyTime(){
             }
         }
     }
-    xmlHttp.open('GET','/SHANZHAIF5_LASTMODIFYTIME.html',true);
-    xmlHttp.setRequestHeader('If-Modified-Since','0');
-    xmlHttp.send(null);
+    SHANZHAIF5_XmlHttp.open('GET','/SHANZHAIF5_LASTMODIFYTIME.html',true);
+    SHANZHAIF5_XmlHttp.setRequestHeader('If-Modified-Since','0');
+    SHANZHAIF5_XmlHttp.send(null);
 }
-window.setInterval(SHANZHAIF5_CheckPageModifyTime,1000);
 </script>");
                     e.DataStream = getStream(sb.ToString(), e.ContentEncoding);
                 }
