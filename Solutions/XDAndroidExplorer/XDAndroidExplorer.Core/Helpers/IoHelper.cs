@@ -15,7 +15,7 @@ namespace XDAndroidExplorer.Core.Helpers
         /// <returns></returns>
         public static String GetParentPath(String Path, Char spStr)
         {
-            var strs = Path.Split(spStr);
+        	String[] strs = Path.Split(spStr);
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i <= strs.Length - 1 - 1; i++)
             {

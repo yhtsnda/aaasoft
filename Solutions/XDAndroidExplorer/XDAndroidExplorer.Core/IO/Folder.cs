@@ -19,19 +19,19 @@ namespace XDAndroidExplorer.Core.IO
         public bool CreateFolder(String FolderName)
         {
             String cmdStr = String.Format("mkdir \"{0}/{1}\"", this.FullName, FolderName);
-            var rtnStr = NativeMethod.ExecuteShellCommand(cmdStr);
+            String rtnStr = NativeMethod.ExecuteShellCommand(cmdStr);
             return String.IsNullOrEmpty(rtnStr);
         }
 
         private List<BaseFile> GetSubBaseFiles()
         {
-            var baseFileList = new List<BaseFile>();
+            List<BaseFile> baseFileList = new List<BaseFile>();
 
             try
             {
-                var result = NativeMethod.ExecuteShellCommand(String.Format("ls -l -e \"{0}\"", this.FullName));
-                var lines = result.Split('\n');
-                foreach (var line in lines)
+                String result = NativeMethod.ExecuteShellCommand(String.Format("ls -l -e \"{0}\"", this.FullName));
+                String[] lines = result.Split('\n');
+                foreach (String line in lines)
                 {
                     if (String.IsNullOrEmpty(line.Trim())) continue;
                     if (line.StartsWith("/")) continue;

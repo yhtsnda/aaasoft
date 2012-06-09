@@ -97,7 +97,7 @@ namespace XDAndroidExplorer.Core
 
             cmd.Start(); //启动进程
 
-            var rtnStr = cmd.StandardError.ReadToEnd();
+            String rtnStr = cmd.StandardError.ReadToEnd();
             rtnStr += cmd.StandardOutput.ReadToEnd();
 
             //For Debug
@@ -114,7 +114,7 @@ namespace XDAndroidExplorer.Core
 
         public static DateTime ConvertLinuxTimeStringToDateTime(String str)
         {
-            var strs = str.Split(' ');
+        	String[] strs = str.Split(' ');
             String weekDay = strs[0];
             String month = strs[1];
             String day = strs[2];
@@ -122,7 +122,7 @@ namespace XDAndroidExplorer.Core
             String year = strs[4];
             String netString = String.Format("{0}, {1} {2} {3} {4}", weekDay, day, month, year, time);
 
-            var returnValue = DateTime.MinValue;
+            DateTime returnValue = DateTime.MinValue;
             DateTime.TryParse(netString, out returnValue);
             return returnValue;
         }

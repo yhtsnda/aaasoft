@@ -43,8 +43,8 @@ namespace XDAndroidExplorer
 
         public static String GetInput(String Title, String Description, String DefaultValue)
         {
-            var form = new InputForm(Title, Description, DefaultValue);
-            var dr = form.ShowDialog();
+            InputForm form = new InputForm(Title, Description, DefaultValue);
+            DialogResult dr = form.ShowDialog();
             if (dr == DialogResult.Cancel) return null;
             return form.Value;
         }
