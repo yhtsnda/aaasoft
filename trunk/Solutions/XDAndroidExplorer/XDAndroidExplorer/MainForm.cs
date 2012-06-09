@@ -53,10 +53,10 @@ namespace XDAndroidExplorer
         private void GotoFolder(XDAndroidExplorer.Core.IO.Folder folder)
         {
             lvExplorer.Items.Clear();
-            var baseFileList = folder.SubBaseFiles;
-            foreach (var baseFile in baseFileList)
+            List<XDAndroidExplorer.Core.IO.BaseFile> baseFileList = folder.SubBaseFiles;
+            foreach (XDAndroidExplorer.Core.IO.BaseFile baseFile in baseFileList)
             {
-                var newLvi = lvExplorer.Items.Add(baseFile.Name);
+                ListViewItem newLvi = lvExplorer.Items.Add(baseFile.Name);
                 newLvi.SubItems.Add(baseFile.Size.ToString());
                 newLvi.SubItems.Add((baseFile is XDAndroidExplorer.Core.IO.Folder) ? "文件夹" : "文件");
                 newLvi.SubItems.Add(baseFile.LastWriteTime.ToString());
@@ -106,7 +106,7 @@ namespace XDAndroidExplorer
         #region 点击“新建文件夹”按钮时
         private void btnNewFolder_Click(object sender, EventArgs e)
         {
-            var newFolderName = InputForm.GetInput("新建文件夹", "请输入文件夹名称：", "");
+            String newFolderName = InputForm.GetInput("新建文件夹", "请输入文件夹名称：", "");
             if (newFolderName == null) return;
 
             newFolderName = newFolderName.Trim();
@@ -124,7 +124,7 @@ namespace XDAndroidExplorer
         private void lvExplorer_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (lvExplorer.SelectedItems.Count == 0) return;
-            var baseFile = lvExplorer.SelectedItems[0].Tag as XDAndroidExplorer.Core.IO.BaseFile;
+            XDAndroidExplorer.Core.IO.BaseFile baseFile = lvExplorer.SelectedItems[0].Tag as XDAndroidExplorer.Core.IO.BaseFile;
             if (baseFile is XDAndroidExplorer.Core.IO.File)
             {
             }
@@ -157,8 +157,8 @@ namespace XDAndroidExplorer
 
         private void MainForm_DragDrop(object sender, DragEventArgs e)
         {
-            var paths = e.Data.GetData(DataFormats.FileDrop, false) as String[];
-            foreach (var path in paths)
+        	String[] paths = e.Data.GetData(DataFormats.FileDrop, false) as String[];
+            foreach (String path in paths)
             {
                 if (File.Exists(path))
                 {
@@ -184,7 +184,7 @@ namespace XDAndroidExplorer
 
         private void 重命名ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var baseFile = lvExplorer.SelectedItems[0].Tag as Core.IO.BaseFile;
+            Core.IO.BaseFile baseFile = lvExplorer.SelectedItems[0].Tag as Core.IO.BaseFile;
 
             String newName = null;
             if (baseFile is Core.IO.File)
@@ -213,11 +213,11 @@ namespace XDAndroidExplorer
             List<XDAndroidExplorer.Core.IO.BaseFile> baseFiles = new List<XDAndroidExplorer.Core.IO.BaseFile>();
             foreach (ListViewItem newLvi in lvExplorer.SelectedItems)
             {
-                var baseFile = newLvi.Tag as Core.IO.BaseFile;
+                Core.IO.BaseFile baseFile = newLvi.Tag as Core.IO.BaseFile;
                 if (baseFile != null) baseFiles.Add(baseFile);
             }
 
-            foreach (var baseFile in baseFiles)
+            foreach (Core.IO.BaseFile baseFile in baseFiles)
             {
                 if (baseFile is XDAndroidExplorer.Core.IO.File)
                 {
@@ -232,11 +232,11 @@ namespace XDAndroidExplorer
 
         private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dr = MessageBox.Show("您确定要删除选中的项？", Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            DialogResult dr = MessageBox.Show("您确定要删除选中的项？", Application.ProductName, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             if (dr == DialogResult.Cancel) return;
             foreach (ListViewItem newLvi in lvExplorer.SelectedItems)
             {
-                var baseFile = newLvi.Tag as XDAndroidExplorer.Core.IO.BaseFile;
+                XDAndroidExplorer.Core.IO.BaseFile baseFile = newLvi.Tag as XDAndroidExplorer.Core.IO.BaseFile;
                 baseFile.Delete();
             }
             RefrushCurrentFolder();

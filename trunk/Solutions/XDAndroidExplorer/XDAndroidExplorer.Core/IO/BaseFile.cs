@@ -39,7 +39,7 @@ namespace XDAndroidExplorer.Core.IO
         {
             get
             {
-                var strs = FullName.Split('/');
+            	String[] strs = FullName.Split('/');
                 if (strs.Length == 0)
                 {
                     return "/";
@@ -51,9 +51,9 @@ namespace XDAndroidExplorer.Core.IO
             }
         }
 
-        public Int64 Size { get; set; }
-        public DateTime LastWriteTime { get; set; }
-        public String Property { get; set; }
+        public Int64 Size;
+        public DateTime LastWriteTime;
+        public String Property;
 
         /// <summary>
         /// 获取父路径
@@ -95,7 +95,7 @@ namespace XDAndroidExplorer.Core.IO
             {
                 deleteCmd = String.Format("rm -rf \"{0}\"", this.FullName);
             }
-            var rtnStr = NativeMethod.ExecuteShellCommand(deleteCmd);
+            String rtnStr = NativeMethod.ExecuteShellCommand(deleteCmd);
             return String.IsNullOrEmpty(rtnStr);
         }
         #endregion
