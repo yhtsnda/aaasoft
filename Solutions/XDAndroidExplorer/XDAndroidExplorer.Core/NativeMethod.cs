@@ -97,8 +97,9 @@ namespace XDAndroidExplorer.Core
 
             cmd.Start(); //启动进程
 
-            String rtnStr = cmd.StandardError.ReadToEnd();
-            rtnStr += cmd.StandardOutput.ReadToEnd();
+            String rtnStr = cmd.StandardOutput.ReadToEnd();
+            //String rtnStr = cmd.StandardError.ReadToEnd();
+            
 
             //For Debug
 #warning For Debug
