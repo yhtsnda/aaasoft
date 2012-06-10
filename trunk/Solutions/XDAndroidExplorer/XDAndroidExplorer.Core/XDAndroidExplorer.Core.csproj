@@ -37,6 +37,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\IoHelper.cs" />
+    <Compile Include="Helpers\UnitStringConverting.cs" />
     <Compile Include="IO\BaseFile.cs" />
     <Compile Include="IO\File.cs" />
     <Compile Include="IO\Folder.cs" />
