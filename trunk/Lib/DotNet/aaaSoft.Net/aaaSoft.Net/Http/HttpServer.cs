@@ -331,6 +331,7 @@ namespace aaaSoft.Net.Http
             StreamWriter writer = new StreamWriter(ns);
 
             String path = null;
+            Stream dataStream = null;
             try
             {
                 while (true)
@@ -365,7 +366,6 @@ namespace aaaSoft.Net.Http
                         path = path.Substring(1);
                     }
 
-                    Stream dataStream = null;
                     String contentType = "application/octet-stream";
                     Encoding contentEncoding = Encoding.UTF8;
                     String otherContent = null;
@@ -373,7 +373,7 @@ namespace aaaSoft.Net.Http
                     if (File.Exists(localPath))
                     {
                         FileInfo fi = new FileInfo(localPath);
-                        dataStream = fi.Open(FileMode.Open, FileAccess.Read);
+                        dataStream = fi.Open(FileMode.Open, FileAccess.Read, FileShare.Read);
                         String ext = System.Web.VirtualPathUtility.GetExtension(path);
                         if (resourceMimeDict.ContainsKey(ext))
                         {
@@ -488,6 +488,11 @@ namespace aaaSoft.Net.Http
                 }
                 catch { }
                 return;
+            }
+            finally
+            {
+            	if(dataStream!=null)
+            		dataStream.Close();
             }
         }
 
