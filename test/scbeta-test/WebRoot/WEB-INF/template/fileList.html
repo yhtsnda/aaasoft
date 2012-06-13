@@ -1,0 +1,84 @@
+<html>
+	<#include "/header.html">
+	<body>
+		<h1>
+			${path?default('')}
+		</h1>
+		<#if fileInfoList??>
+		<table cellspacing="0" border="0"
+			style="width: 100%; border-collapse: collapse;">
+			<tbody>
+				<tr class="head">
+					<td>
+						名称
+					</td>
+					<td>
+						修改时间
+					</td>
+					<td>
+						类型
+					</td>
+					<td>
+						大小
+					</td>
+				</tr>
+				<#if parentPath??>
+				<tr class="alt2" onmouseover="this.className='focus';"
+					onmouseout="this.className='alt2';">
+					<td>
+						<a href="fileList.do?path=${parentPath}">
+							<div style="float:left">
+								<img src="${contextPath}/resource/image/folder.png" />
+								&nbsp;
+							</div>
+							<p>返回上层目录..</p>
+						</a>
+					</td>
+					<td></td>
+					<td>目录</td>
+					<td></td>
+				</tr>
+				</#if> <#assign line=0 /> <#list fileInfoList as fileInfo> <#assign
+				line=line+1 /> <#if line%2==0>
+				<tr class="alt2" onmouseover="this.className='focus';"
+					onmouseout="this.className='alt2';">
+					<#else>
+				<tr class="alt1" onmouseover="this.className='focus';"
+					onmouseout="this.className='alt1';">
+					</#if>
+					<td>
+						<#if fileInfo['url']??>
+							<a href="${fileInfo['url']}">
+								<div style="float:left">
+							<#if fileInfo["fileType"] == "目录">
+								<img src="${contextPath}/resource/image/folder.png" />
+							<#else>
+								<img src="${contextPath}/resource/image/file.png" />
+							</#if>
+								&nbsp;
+								</div>
+								<p>${fileInfo["name"]}</p>
+							</a>
+						<#else>
+							<div style="float:left">
+								<img src="${contextPath}/resource/image/file.png" />
+							</div>
+							<p>${fileInfo["name"]}</p>
+						</#if>
+					</td>
+					<td>
+						${fileInfo["lastModified"]}
+					</td>
+					<td>
+						${fileInfo["fileType"]}
+					</td>
+					<td>
+						<#if fileInfo["fileType"] == "文件"> ${fileInfo["length"]} 字节</#if>
+					</td>
+				</tr>
+				</#list>
+			</tbody>
+		</table>
+		</#if>
+	</body>
+</html>
