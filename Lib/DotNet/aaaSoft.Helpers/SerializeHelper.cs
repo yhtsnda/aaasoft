@@ -52,12 +52,13 @@ namespace aaaSoft.Helpers
         /// <returns></returns>
         public static object XmlDeserializeObject(byte[] buffer, Type objType, Boolean IsCheckTypeName)
         {
+            Encoding encoding = Encoding.UTF8;
 
             String newStr;
             try
             {
                 string xmlHeaderStr = "<?xml";
-                byte[] xmlHeaderArray = Encoding.Default.GetBytes(xmlHeaderStr);
+                byte[] xmlHeaderArray = encoding.GetBytes(xmlHeaderStr);
                 for (int i = 0; i <= xmlHeaderArray.Length - 1; i++)
                 {
                     if (xmlHeaderArray[i] != buffer[i])
@@ -68,7 +69,7 @@ namespace aaaSoft.Helpers
 
                 lock (xd)
                 {
-                    newStr = Encoding.Default.GetString(buffer);
+                    newStr = encoding.GetString(buffer);
                     xd.LoadXml(newStr);
                     if (IsCheckTypeName)
                     {

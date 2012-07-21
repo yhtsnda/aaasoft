@@ -29,10 +29,10 @@ namespace aaaSoft.Net.Ftp.ListAnalyzer
                         continue;
                     }
                     var tmpKeyValue = tmpLine.Split('=');
-                    dictLine.Add(tmpKeyValue[0].Trim(), tmpKeyValue[1].Trim());
+                    dictLine.Add(tmpKeyValue[0].Trim().ToLower(), tmpKeyValue[1].Trim());
                 }
                 //类型
-                switch (dictLine["Type"])
+                switch (dictLine["type"])
                 {
                         //上层目录
                     case "cdir": return null;
@@ -44,7 +44,7 @@ namespace aaaSoft.Net.Ftp.ListAnalyzer
                         break;
                 }
                 //最后修改时间
-                String srcDateTimeString = dictLine["Modify"];
+                String srcDateTimeString = dictLine["modify"];
                 var DataTimeString = String.Format(
                         "{0}/{1}/{2} {3}:{4}:{5}",
                         srcDateTimeString.Substring(0, 4),
@@ -59,7 +59,7 @@ namespace aaaSoft.Net.Ftp.ListAnalyzer
                 //大小
                 if (!IsFolder)
                 {
-                    FileSize = Convert.ToInt64(dictLine["Size"]);
+                    FileSize = Convert.ToInt64(dictLine["size"]);
                 }
                 //属性
                 if (dictLine.ContainsKey("Win32.ea"))
