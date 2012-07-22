@@ -211,10 +211,11 @@ namespace aaaSoft.FtpClient.Forms
                 btnStopQueue.Enabled = false;
             }));
             BeginListFolder(RemoteFolderPathWhenQueueStart);
-            LogHelper.PushLog("传送队列已完成", Color.FromArgb(128, 0, 0));
+            LogHelper.PushLog("队列已完成", Color.FromArgb(128, 0, 0));
             String LogStr = String.Format(
-                "已传送 {0} 个文件, 总计 {1} 于 {2} 秒 ({3}/秒)"
+                "已处理 {0} 个文件, {1} 个目录, 总计 {2} 于 {3} 秒 ({4}/秒)"
                 , tq.TransferedFileCount
+                , tq.TransferedFolderCount
                 , storageUnitStringConverting.GetString(tq.TransferedDataLength, 2, false) + "B"
                 , tq.TransferUsedTime.TotalSeconds.ToString("N2")
                 , storageUnitStringConverting.GetString(tq.AverageTransferSpeed, 2, false) + "B"
@@ -1193,7 +1194,7 @@ namespace aaaSoft.FtpClient.Forms
 
             if (CurrentFtpSiteData != null)
             {
-                传送队列TToolStripMenuItem.Enabled = btnStartQueue.Enabled;
+                执行队列TToolStripMenuItem.Enabled = btnStartQueue.Enabled;
                 删除ToolStripMenuItem.Enabled = lvQueue.SelectedItems.Count > 0;
 #warning 载入队列、保存队列暂时不可用
                 //载入队列LToolStripMenuItem.Enabled = CurrentTransferQueue.QueueState == TransferQueue.TransferQueueState.Stoped;
@@ -1201,7 +1202,7 @@ namespace aaaSoft.FtpClient.Forms
                 清除队列ToolStripMenuItem.Enabled = CurrentTransferQueue.GetQueueItemCount() > 0 && CurrentTransferQueue.QueueState != TransferQueue.TransferQueueState.Running;
             }
         }
-        private void 传送队列TToolStripMenuItem_Click(object sender, EventArgs e)
+        private void 执行队列TToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnStartQueue_Click(sender, e);
         }
