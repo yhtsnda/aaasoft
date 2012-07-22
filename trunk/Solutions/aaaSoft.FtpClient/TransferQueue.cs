@@ -26,6 +26,10 @@ namespace aaaSoft.FtpClient
         /// </summary>
         public Int32 TransferedFileCount;
         /// <summary>
+        /// 已传送目录数量
+        /// </summary>
+        public Int32 TransferedFolderCount;
+        /// <summary>
         /// 已传送数据的长度
         /// </summary>
         [NonSerialized()]
@@ -207,6 +211,7 @@ namespace aaaSoft.FtpClient
 
             //初始化相关变量
             TransferedFileCount = 0;
+            TransferedFolderCount = 0;
             TransferedDataLength = 0;
             TransferStartTime = DateTime.Now;
 
@@ -257,6 +262,7 @@ namespace aaaSoft.FtpClient
                             InsertIntoQueue(subItem);
                         }
                         item.State = TransferQueueItem.TransferQueueItemStateEnum.TransferComplete;
+                        TransferedFolderCount++;
                     }
                     //如果是文件
                     else
@@ -310,7 +316,6 @@ namespace aaaSoft.FtpClient
                             continue;
                         }
                         item.State = TransferQueueItem.TransferQueueItemStateEnum.TransferComplete;
-
                         TransferedFileCount++;
                         TransferedDataLength += ftpClient.TransferedDataLength;
                     }
@@ -352,6 +357,7 @@ namespace aaaSoft.FtpClient
                                 InsertIntoQueue(subItem);
                             }
                             item.State = TransferQueueItem.TransferQueueItemStateEnum.TransferComplete;
+                            TransferedFolderCount++;
                         }
                         catch (Exception ex)
                         {
@@ -380,6 +386,7 @@ namespace aaaSoft.FtpClient
                                 RemoveFromQueue(item);
                                 continue;
                             }
+                            TransferedFolderCount++;
                         }
                         else
                         {
@@ -410,6 +417,8 @@ namespace aaaSoft.FtpClient
                             RemoveFromQueue(item);
                             continue;
                         }
+                        TransferedFileCount++;
+                        TransferedDataLength += baseFile.Length;
                     }
                     item.State = TransferQueueItem.TransferQueueItemStateEnum.TransferComplete;
                 }

@@ -80,7 +80,7 @@
             this.chQueueSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chQueueRemark = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cmsQueue = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.传送队列TToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.执行队列TToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripSeparator();
             this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem9 = new System.Windows.Forms.ToolStripSeparator();
@@ -300,7 +300,7 @@
             this.btnStartQueue.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.btnStartQueue.Name = "btnStartQueue";
             this.btnStartQueue.Size = new System.Drawing.Size(36, 32);
-            this.btnStartQueue.ToolTipText = "传送队列";
+            this.btnStartQueue.ToolTipText = "执行队列";
             this.btnStartQueue.Click += new System.EventHandler(this.btnStartQueue_Click);
             // 
             // btnStopQueue
@@ -313,7 +313,7 @@
             this.btnStopQueue.Margin = new System.Windows.Forms.Padding(2, 0, 0, 0);
             this.btnStopQueue.Name = "btnStopQueue";
             this.btnStopQueue.Size = new System.Drawing.Size(36, 32);
-            this.btnStopQueue.ToolTipText = "当前传送结束后停止队列";
+            this.btnStopQueue.ToolTipText = "当前执行项结束后停止队列";
             this.btnStopQueue.Click += new System.EventHandler(this.btnStopQueue_Click);
             // 
             // lvRemoteFile
@@ -461,7 +461,7 @@
             this.帮助HToolStripMenuItem});
             this.msMain.Location = new System.Drawing.Point(0, 0);
             this.msMain.Name = "msMain";
-            this.msMain.Size = new System.Drawing.Size(908, 24);
+            this.msMain.Size = new System.Drawing.Size(908, 25);
             this.msMain.TabIndex = 3;
             this.msMain.Text = "menuStrip2";
             // 
@@ -470,13 +470,13 @@
             this.文件FToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.退出XToolStripMenuItem});
             this.文件FToolStripMenuItem.Name = "文件FToolStripMenuItem";
-            this.文件FToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.文件FToolStripMenuItem.Size = new System.Drawing.Size(58, 21);
             this.文件FToolStripMenuItem.Text = "文件(&F)";
             // 
             // 退出XToolStripMenuItem
             // 
             this.退出XToolStripMenuItem.Name = "退出XToolStripMenuItem";
-            this.退出XToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.退出XToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.退出XToolStripMenuItem.Text = "退出(&X)";
             this.退出XToolStripMenuItem.Click += new System.EventHandler(this.退出XToolStripMenuItem_Click);
             // 
@@ -487,26 +487,26 @@
             this.toolStripMenuItem1,
             this.选项PToolStripMenuItem});
             this.站点TToolStripMenuItem.Name = "站点TToolStripMenuItem";
-            this.站点TToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.站点TToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
             this.站点TToolStripMenuItem.Text = "站点(&S)";
             // 
             // 站点管理SToolStripMenuItem
             // 
             this.站点管理SToolStripMenuItem.Name = "站点管理SToolStripMenuItem";
-            this.站点管理SToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.站点管理SToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.站点管理SToolStripMenuItem.Text = "站点管理器(&S)...";
             this.站点管理SToolStripMenuItem.Click += new System.EventHandler(this.站点管理SToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(163, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(157, 6);
             // 
             // 选项PToolStripMenuItem
             // 
             this.选项PToolStripMenuItem.Enabled = false;
             this.选项PToolStripMenuItem.Name = "选项PToolStripMenuItem";
-            this.选项PToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.选项PToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.选项PToolStripMenuItem.Text = "选项(&P)";
             // 
             // 帮助HToolStripMenuItem
@@ -514,13 +514,13 @@
             this.帮助HToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.关于AToolStripMenuItem});
             this.帮助HToolStripMenuItem.Name = "帮助HToolStripMenuItem";
-            this.帮助HToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.帮助HToolStripMenuItem.Size = new System.Drawing.Size(61, 21);
             this.帮助HToolStripMenuItem.Text = "帮助(&H)";
             // 
             // 关于AToolStripMenuItem
             // 
             this.关于AToolStripMenuItem.Name = "关于AToolStripMenuItem";
-            this.关于AToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.关于AToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.关于AToolStripMenuItem.Text = "关于(&A)...";
             this.关于AToolStripMenuItem.Click += new System.EventHandler(this.关于AToolStripMenuItem_Click);
             // 
@@ -623,7 +623,7 @@
             // cmsQueue
             // 
             this.cmsQueue.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.传送队列TToolStripMenuItem,
+            this.执行队列TToolStripMenuItem,
             this.toolStripMenuItem8,
             this.删除ToolStripMenuItem,
             this.toolStripMenuItem9,
@@ -632,56 +632,56 @@
             this.toolStripMenuItem10,
             this.清除队列ToolStripMenuItem});
             this.cmsQueue.Name = "cmsQueue";
-            this.cmsQueue.Size = new System.Drawing.Size(155, 132);
+            this.cmsQueue.Size = new System.Drawing.Size(153, 154);
             this.cmsQueue.Opening += new System.ComponentModel.CancelEventHandler(this.cmsQueue_Opening);
             // 
-            // 传送队列TToolStripMenuItem
+            // 执行队列TToolStripMenuItem
             // 
-            this.传送队列TToolStripMenuItem.Name = "传送队列TToolStripMenuItem";
-            this.传送队列TToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.传送队列TToolStripMenuItem.Text = "传送队列(&T)";
-            this.传送队列TToolStripMenuItem.Click += new System.EventHandler(this.传送队列TToolStripMenuItem_Click);
+            this.执行队列TToolStripMenuItem.Name = "执行队列TToolStripMenuItem";
+            this.执行队列TToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.执行队列TToolStripMenuItem.Text = "执行队列(&T)";
+            this.执行队列TToolStripMenuItem.Click += new System.EventHandler(this.执行队列TToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(151, 6);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(149, 6);
             // 
             // 删除ToolStripMenuItem
             // 
             this.删除ToolStripMenuItem.Name = "删除ToolStripMenuItem";
-            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.删除ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.删除ToolStripMenuItem.Text = "删除";
             this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem9
             // 
             this.toolStripMenuItem9.Name = "toolStripMenuItem9";
-            this.toolStripMenuItem9.Size = new System.Drawing.Size(151, 6);
+            this.toolStripMenuItem9.Size = new System.Drawing.Size(149, 6);
             // 
             // 载入队列LToolStripMenuItem
             // 
             this.载入队列LToolStripMenuItem.Name = "载入队列LToolStripMenuItem";
-            this.载入队列LToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.载入队列LToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.载入队列LToolStripMenuItem.Text = "载入队列(&L)...";
             this.载入队列LToolStripMenuItem.Click += new System.EventHandler(this.载入队列LToolStripMenuItem_Click);
             // 
             // 保存队列SToolStripMenuItem
             // 
             this.保存队列SToolStripMenuItem.Name = "保存队列SToolStripMenuItem";
-            this.保存队列SToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.保存队列SToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.保存队列SToolStripMenuItem.Text = "保存队列(&S)...";
             this.保存队列SToolStripMenuItem.Click += new System.EventHandler(this.保存队列SToolStripMenuItem_Click);
             // 
             // toolStripMenuItem10
             // 
             this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-            this.toolStripMenuItem10.Size = new System.Drawing.Size(151, 6);
+            this.toolStripMenuItem10.Size = new System.Drawing.Size(149, 6);
             // 
             // 清除队列ToolStripMenuItem
             // 
             this.清除队列ToolStripMenuItem.Name = "清除队列ToolStripMenuItem";
-            this.清除队列ToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.清除队列ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.清除队列ToolStripMenuItem.Text = "清除队列";
             this.清除队列ToolStripMenuItem.Click += new System.EventHandler(this.清除队列ToolStripMenuItem_Click);
             // 
@@ -692,6 +692,7 @@
             this.ilQueue.Images.SetKeyName(0, "Error");
             this.ilQueue.Images.SetKeyName(1, "Download");
             this.ilQueue.Images.SetKeyName(2, "Upload");
+            this.ilQueue.Images.SetKeyName(3, "Delete");
             // 
             // rtbLog
             // 
@@ -775,7 +776,7 @@
             // lblTransferState
             // 
             this.lblTransferState.Name = "lblTransferState";
-            this.lblTransferState.Size = new System.Drawing.Size(29, 18);
+            this.lblTransferState.Size = new System.Drawing.Size(32, 18);
             this.lblTransferState.Text = "就绪";
             // 
             // toolStripStatusLabel1
@@ -1020,7 +1021,7 @@
         private System.Windows.Forms.ToolStripButton btnStartQueue;
         private System.Windows.Forms.ToolStripButton btnStopQueue;
         private System.Windows.Forms.ContextMenuStrip cmsQueue;
-        private System.Windows.Forms.ToolStripMenuItem 传送队列TToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 执行队列TToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
         private System.Windows.Forms.ToolStripMenuItem 删除ToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
