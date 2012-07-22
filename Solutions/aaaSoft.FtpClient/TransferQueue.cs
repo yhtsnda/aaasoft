@@ -220,7 +220,7 @@ namespace aaaSoft.FtpClient
                 //处理队列对象
                 item.State = TransferQueueItem.TransferQueueItemStateEnum.Transfering;
                 var siteData = item.SiteData;
-                var site = siteData.GetFtpSite();
+                var ftpClient = siteData.GetFtpClient();
                 CurrentSiteData = item.SiteData;
 
                 if (item.Type == TransferQueueItem.TransferQueueItemTypeEnum.Download)
@@ -239,11 +239,11 @@ namespace aaaSoft.FtpClient
                             continue;
                         }
                         //列出目录
-                        var subBaseFiles = site.ListDirectory(baseFile.FullName);
+                        var subBaseFiles = ftpClient.ListDirectory(baseFile.FullName);
                         if (subBaseFiles == null)
                         {
                             item.State = TransferQueueItem.TransferQueueItemStateEnum.Error;
-                            item.Tip = String.Format("列目录 {0} 时失败，原因:{1}。", baseFile.FullName, site.ErrMsg);
+                            item.Tip = String.Format("列目录 {0} 时失败，原因:{1}。", baseFile.FullName, ftpClient.ErrMsg);
                             RemoveFromQueue(item);
                             continue;
                         }
@@ -259,24 +259,24 @@ namespace aaaSoft.FtpClient
                         item.State = TransferQueueItem.TransferQueueItemStateEnum.TransferComplete;
                     }
                     //如果是文件
-                    else if (baseFile is FtpBaseFileInfo)
+                    else
                     {
                         //如果当前目录不是要下载文件的目录，则改变工作目录
-                        if (site.CurrentDirectoryPath.ToUpper() != baseFile.ParentPath.ToUpper())
+                        if (ftpClient.CurrentDirectoryPath.ToUpper() != baseFile.ParentPath.ToUpper())
                         {
-                            site.ListDirectory(baseFile.ParentPath);
+                            ftpClient.ListDirectory(baseFile.ParentPath);
                         }
 
-                        if (!site.DownloadFile(baseFile as FtpBaseFileInfo, item.LocalPath))
+                        if (!ftpClient.DownloadFile(baseFile as FtpBaseFileInfo, item.LocalPath))
                         {
-                            item.Tip = String.Format("下载文件 {0} 时失败，原因:{1}。", baseFile.FullName, site.ErrMsg);
+                            item.Tip = String.Format("下载文件 {0} 时失败，原因:{1}。", baseFile.FullName, ftpClient.ErrMsg);
                             item.State = TransferQueueItem.TransferQueueItemStateEnum.Error;
                             RemoveFromQueue(item);
                             continue;
                         }
                         item.State = TransferQueueItem.TransferQueueItemStateEnum.TransferComplete;
                         TransferedFileCount++;
-                        TransferedDataLength += site.TransferedDataLength;
+                        TransferedDataLength += ftpClient.TransferedDataLength;
                     }
                 }
                 else if (item.Type == TransferQueueItem.TransferQueueItemTypeEnum.Upload)
@@ -286,14 +286,14 @@ namespace aaaSoft.FtpClient
                     {
                         //远端目录路径
                         var remoteFolderPath = aaaSoft.Helpers.IoHelper.GetParentPath(item.RemotePath, '/');
-                        if (site.CurrentDirectoryPath != remoteFolderPath)
+                        if (ftpClient.CurrentDirectoryPath != remoteFolderPath)
                         {
-                            var baseFiles = site.ListDirectory(remoteFolderPath);
+                            var baseFiles = ftpClient.ListDirectory(remoteFolderPath);
                             //如果列目录失败
                             if (baseFiles == null)
                             {
                                 item.State = TransferQueueItem.TransferQueueItemStateEnum.Error;
-                                item.Tip = String.Format("列目录 {0} 时失败，原因:{1}。", remoteFolderPath, site.ErrMsg);
+                                item.Tip = String.Format("列目录 {0} 时失败，原因:{1}。", remoteFolderPath, ftpClient.ErrMsg);
                                 RemoveFromQueue(item);
                                 continue;
                             }
@@ -302,17 +302,17 @@ namespace aaaSoft.FtpClient
                         //远端文件名
                         var remoteFileName = aaaSoft.Helpers.IoHelper.GetFileOrFolderName(item.RemotePath, '/');
 
-                        if (!site.UploadFile(remoteFileName, item.LocalPath))
+                        if (!ftpClient.UploadFile(remoteFileName, item.LocalPath))
                         {
                             item.State = TransferQueueItem.TransferQueueItemStateEnum.Error;
-                            item.Tip = String.Format("上传文件 {0} 时失败，原因:{1}。", item.LocalPath, site.ErrMsg);
+                            item.Tip = String.Format("上传文件 {0} 时失败，原因:{1}。", item.LocalPath, ftpClient.ErrMsg);
                             RemoveFromQueue(item);
                             continue;
                         }
                         item.State = TransferQueueItem.TransferQueueItemStateEnum.TransferComplete;
 
                         TransferedFileCount++;
-                        TransferedDataLength += site.TransferedDataLength;
+                        TransferedDataLength += ftpClient.TransferedDataLength;
                     }
                     //如果是目录
                     else if (System.IO.Directory.Exists(item.LocalPath))
@@ -320,14 +320,14 @@ namespace aaaSoft.FtpClient
                         //=====================
                         //检查远端目录是否存在
                         //=====================
-                        var baseFiles = site.ListDirectory(item.RemotePath);
+                        var baseFiles = ftpClient.ListDirectory(item.RemotePath);
                         //如果远端目录不存在
                         if (baseFiles == null)
                         {
-                            if (!site.CreateDirectory(item.RemotePath))
+                            if (!ftpClient.CreateDirectory(item.RemotePath))
                             {
                                 item.State = TransferQueueItem.TransferQueueItemStateEnum.Error;
-                                item.Tip = String.Format("创建远端目录 {0} 时失败，原因:{0}。", item.LocalPath, site.ErrMsg);
+                                item.Tip = String.Format("创建远端目录 {0} 时失败，原因:{0}。", item.LocalPath, ftpClient.ErrMsg);
                                 RemoveFromQueue(item);
                                 continue;
                             }
@@ -356,13 +356,63 @@ namespace aaaSoft.FtpClient
                         catch (Exception ex)
                         {
                             item.State = TransferQueueItem.TransferQueueItemStateEnum.Error;
-                            item.Tip = String.Format("上传目录 {0} 时失败，原因:{0}。", item.LocalPath, ex.Message);
+                            item.Tip = String.Format("上传目录 {0} 时失败，原因:{1}。", item.LocalPath, ex.Message);
                             RemoveFromQueue(item);
                             continue;
                         }
                     }
                 }
+                //如果是删除
+                else if (item.Type == TransferQueueItem.TransferQueueItemTypeEnum.Delete)
+                {
+                    var baseFile = item.RemoteBaseFile;
 
+                    //如果是目录
+                    if (baseFile.IsFolder)
+                    {
+                        List<FtpBaseFileInfo> ftpBaseFileInfoList = ftpClient.ListDirectory(baseFile.FullName);
+                        if (ftpBaseFileInfoList.Count == 0)
+                        {
+                            if (!ftpClient.RemoveDirectory(baseFile.FullName))
+                            {
+                                item.State = TransferQueueItem.TransferQueueItemStateEnum.Error;
+                                item.Tip = String.Format("删除目录 {0} 时失败，原因:{1}。", item.LocalPath, ftpClient.ErrMsg);
+                                RemoveFromQueue(item);
+                                continue;
+                            }
+                        }
+                        else
+                        {
+                            this.InsertIntoQueue(new TransferQueueItem(siteData)
+                            {
+                                Type = TransferQueueItem.TransferQueueItemTypeEnum.Delete,
+                                RemoteBaseFile = baseFile,
+                                RemotePath = baseFile.FullName
+                            });
+                            foreach (FtpBaseFileInfo tmpInfo in ftpBaseFileInfoList)
+                            {
+                                this.InsertIntoQueue(new TransferQueueItem(siteData)
+                                {
+                                    Type = TransferQueueItem.TransferQueueItemTypeEnum.Delete,
+                                    RemoteBaseFile = tmpInfo,
+                                    RemotePath = tmpInfo.FullName
+                                });
+                            }
+                        }
+                    }
+                    //如果是文件
+                    else
+                    {
+                        if (!ftpClient.DeleteFile(baseFile.FullName))
+                        {
+                            item.State = TransferQueueItem.TransferQueueItemStateEnum.Error;
+                            item.Tip = String.Format("删除文件 {0} 时失败，原因:{1}。", item.LocalPath, ftpClient.ErrMsg);
+                            RemoveFromQueue(item);
+                            continue;
+                        }
+                    }
+                    item.State = TransferQueueItem.TransferQueueItemStateEnum.TransferComplete;
+                }
                 //如果处理成功则从队列中移除
                 RemoveFromQueue(item);
             }

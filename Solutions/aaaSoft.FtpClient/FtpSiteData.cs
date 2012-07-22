@@ -24,6 +24,16 @@ namespace aaaSoft.FtpClient
         /// </summary>
         public String HostName { get; set; }
         /// <summary>
+        /// 显示名称
+        /// </summary>
+        public String DisplayName
+        {
+            get
+            {
+                return String.Format("{0}({1})", Name, HostName);
+            }
+        }
+        /// <summary>
         /// 端口
         /// </summary>
         public Int32 Port { get; set; }
@@ -79,39 +89,39 @@ namespace aaaSoft.FtpClient
         /// </summary>
         public FtpSiteDataGroup Group;
 
-        private aaaSoft.Net.Ftp.FtpClient _FtpSite = null;
+        private aaaSoft.Net.Ftp.FtpClient _FtpClient = null;
         /// <summary>
         /// 得到对应的FtpSite对象
         /// </summary>
         /// <returns></returns>
-        public aaaSoft.Net.Ftp.FtpClient GetFtpSite()
+        public aaaSoft.Net.Ftp.FtpClient GetFtpClient()
         {
-            if (_FtpSite == null)
+            if (_FtpClient == null)
             {
-                CreateFtpSite();
+                CreateFtpClient();
             }
-            return _FtpSite;
+            return _FtpClient;
         }
 
         /// <summary>
         /// 清除FtpSite对象
         /// </summary>
-        public void ClearFtpSite()
+        public void ClearFtpClient()
         {
-            _FtpSite = null;
+            _FtpClient = null;
         }
 
         /// <summary>
         /// 创建新的FtpSite对象
         /// </summary>
-        public void CreateFtpSite()
+        public void CreateFtpClient()
         {
-            _FtpSite = new aaaSoft.Net.Ftp.FtpClient(HostName, Port, UserName, Password);
-            _FtpSite.IsShowHidenFile = IsShowHidenFile;
-            _FtpSite.IsUseMlsdToListFolder = IsUseMlsdToListFolder;
-            _FtpSite.IsNotSupportFEAT = IsNotSupportFEAT;
-            _FtpSite.StringEncoding = StringEncoding;
-            _FtpSite.BufferSize = BufferSize;
+            _FtpClient = new aaaSoft.Net.Ftp.FtpClient(HostName, Port, UserName, Password);
+            _FtpClient.IsShowHidenFile = IsShowHidenFile;
+            _FtpClient.IsUseMlsdToListFolder = IsUseMlsdToListFolder;
+            _FtpClient.IsNotSupportFEAT = IsNotSupportFEAT;
+            _FtpClient.StringEncoding = StringEncoding;
+            _FtpClient.BufferSize = BufferSize;
             
         }
     }

@@ -76,11 +76,12 @@ namespace aaaSoft.FtpClient.Forms
                     {
                         newLvi.Text = item.RemoteBaseFile.FullName;
                         newLvi.SubItems.Add(item.LocalPath);
-                        if (item.RemoteBaseFile is FtpBaseFileInfo)
-                            newLvi.SubItems.Add(storageUnitStringConverting.GetString(item.RemoteBaseFile.Length, 2, false) + "B");
-                        else
+                        if (item.RemoteBaseFile.IsFolder)
                             newLvi.SubItems.Add("<文件夹>");
-                        newLvi.SubItems.Add(String.Format("从 {0} 下载", item.SiteData.HostName));
+                        else
+                            newLvi.SubItems.Add(storageUnitStringConverting.GetString(item.RemoteBaseFile.Length, 2, false) + "B");
+
+                        newLvi.SubItems.Add(String.Format("从 {0} 下载", item.SiteData.DisplayName));
                         newLvi.Tag = item;
                         newLvi.ImageKey = "Download";
                     }
@@ -98,9 +99,21 @@ namespace aaaSoft.FtpClient.Forms
                             var folderInfo = new DirectoryInfo(item.LocalPath);
                             newLvi.SubItems.Add("<文件夹>");
                         }
-                        newLvi.SubItems.Add(String.Format("上传到 {0}", item.SiteData.HostName));
+                        newLvi.SubItems.Add(String.Format("上传到 {0}", item.SiteData.DisplayName));
                         newLvi.Tag = item;
                         newLvi.ImageKey = "Upload";
+                    }
+                    else if (item.Type == TransferQueueItem.TransferQueueItemTypeEnum.Delete)
+                    {
+                        newLvi.Text = item.RemoteBaseFile.Name;
+                        newLvi.SubItems.Add(item.RemotePath);
+                        if (item.RemoteBaseFile.IsFolder)
+                            newLvi.SubItems.Add("<文件夹>");
+                        else
+                            newLvi.SubItems.Add(storageUnitStringConverting.GetString(item.RemoteBaseFile.Length, 2, false) + "B");
+                        newLvi.SubItems.Add(String.Format("从 {0} 删除", item.SiteData.DisplayName));
+                        newLvi.Tag = item;
+                        newLvi.ImageKey = "Delete";
                     }
                 }));
         }
@@ -137,7 +150,7 @@ namespace aaaSoft.FtpClient.Forms
                 {
                     var item = e.QueueItem;
                     var siteData = item.SiteData;
-                    var site = item.SiteData.GetFtpSite();
+                    var site = item.SiteData.GetFtpClient();
 
                     //显示传输成功日志
                     if (item.Type == TransferQueueItem.TransferQueueItemTypeEnum.Download)
@@ -231,7 +244,7 @@ namespace aaaSoft.FtpClient.Forms
             TransferQueue tq = sender as TransferQueue;
             if (tq == null || tq.CurrentSiteData == null)
                 return;
-            aaaSoft.Net.Ftp.FtpClient site = tq.CurrentSiteData.GetFtpSite();
+            aaaSoft.Net.Ftp.FtpClient site = tq.CurrentSiteData.GetFtpClient();
             Double progressDouble = site.TransferProgress;
             Int32 progressInt32 = Convert.ToInt32(progressDouble * (pbTransferProgress.Maximum - pbTransferProgress.Minimum) + pbTransferProgress.Minimum);
             if (progressInt32 < pbTransferProgress.Minimum) progressInt32 = pbTransferProgress.Minimum;
@@ -797,6 +810,18 @@ namespace aaaSoft.FtpClient.Forms
                 var baseFile = newLvi.Tag as FtpBaseFileInfo;
                 BaseFileList.Add(baseFile);
             }
+            foreach (FtpBaseFileInfo ftpBaseFileInfo in BaseFileList)
+            {
+                var subItem = new TransferQueueItem(CurrentFtpSiteData);
+                subItem.Type = TransferQueueItem.TransferQueueItemTypeEnum.Delete;
+                subItem.RemoteBaseFile = ftpBaseFileInfo;
+                subItem.RemotePath = ftpBaseFileInfo.FullName;
+                CurrentTransferQueue.AddToQueue(subItem);
+            }
+            CurrentTransferQueue.StartQueue();
+            return;
+            //原方法
+
             SetLvRemoteFileGray(true);
             //将删除远端路径线程加入线程池
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
@@ -831,11 +856,11 @@ namespace aaaSoft.FtpClient.Forms
             {
                 if (baseFile.IsFolder)
                     FolderInfoList.Add(baseFile);
-                else if (baseFile is FtpBaseFileInfo)
+                else
                     FileInfoList.Add(baseFile);
             }
 
-            var client = CurrentFtpSiteData.GetFtpSite();
+            var client = CurrentFtpSiteData.GetFtpClient();
 
 
             //先删除文件
@@ -881,7 +906,7 @@ namespace aaaSoft.FtpClient.Forms
             if (dr == System.Windows.Forms.DialogResult.Cancel) return;
             String newFolderName = frmInput.Value;
 
-            var client = CurrentFtpSiteData.GetFtpSite();
+            var client = CurrentFtpSiteData.GetFtpClient();
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
                 {
@@ -912,7 +937,7 @@ namespace aaaSoft.FtpClient.Forms
 
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
                 {
-                    var site = CurrentFtpSiteData.GetFtpSite();
+                    var site = CurrentFtpSiteData.GetFtpClient();
                     if (!site.CreateDirectory(newFolderName))
                     {
                         return;
@@ -1037,14 +1062,14 @@ namespace aaaSoft.FtpClient.Forms
             if (CurrentFtpSiteData == null)
                 return;
 
-            var site = CurrentFtpSiteData.GetFtpSite();
+            var site = CurrentFtpSiteData.GetFtpClient();
             ThreadPool.QueueUserWorkItem(new WaitCallback(delegate
                 {
                     site.Quit();
                 }));
 
             btnDisconnect.Enabled = false;
-            CurrentFtpSiteData.ClearFtpSite();
+            CurrentFtpSiteData.ClearFtpClient();
             CurrentFtpSiteData = null;
             CurrentFolderPath = "";
             txtAddress.Text = "";
@@ -1059,7 +1084,7 @@ namespace aaaSoft.FtpClient.Forms
             if (CurrentFtpSiteData == null) return;
 
             btnStopQueue_Click(sender, e);
-            var site = CurrentFtpSiteData.GetFtpSite();
+            var site = CurrentFtpSiteData.GetFtpClient();
             site.ForceCloseDataConnection();
         }
         #endregion
@@ -1089,7 +1114,7 @@ namespace aaaSoft.FtpClient.Forms
         private void BeginListFolder(String folderPath)
         {
             if (CurrentFtpSiteData == null) return;
-            var client = CurrentFtpSiteData.GetFtpSite();
+            var client = CurrentFtpSiteData.GetFtpClient();
 
             CurrentFolderPath = folderPath;
             if (String.IsNullOrEmpty(CurrentFolderPath))
@@ -1127,7 +1152,7 @@ namespace aaaSoft.FtpClient.Forms
                 BindCurrentFtpSiteEvent();
             }));
 
-            var site = CurrentFtpSiteData.GetFtpSite();
+            var site = CurrentFtpSiteData.GetFtpClient();
             site.BeginLogin();
         }
         #endregion
@@ -1136,7 +1161,7 @@ namespace aaaSoft.FtpClient.Forms
         //绑定当前FTP连接的事件
         private void BindCurrentFtpSiteEvent()
         {
-            var site = CurrentFtpSiteData.GetFtpSite();
+            var site = CurrentFtpSiteData.GetFtpClient();
             UnbindCurrentFtpSiteEvent();
             site.RequestEvent += new aaaSoft.Net.Ftp.FtpClient.FtpSiteCommandEventHandler(site_RequestEvent);
             site.ResponseEvent += new aaaSoft.Net.Ftp.FtpClient.FtpSiteCommandEventHandler(site_ResponseEvent);
@@ -1154,7 +1179,7 @@ namespace aaaSoft.FtpClient.Forms
         private void UnbindCurrentFtpSiteEvent()
         {
             if (CurrentFtpSiteData == null) return;
-            var site = CurrentFtpSiteData.GetFtpSite();
+            var site = CurrentFtpSiteData.GetFtpClient();
             site.ClearEventBinding();
         }
         #endregion

@@ -30,7 +30,11 @@ namespace aaaSoft.FtpClient
             /// <summary>
             /// 上传
             /// </summary>
-            Upload = 1
+            Upload = 1,
+            /// <summary>
+            /// 删除
+            /// </summary>
+            Delete =2
         }
         /// <summary>
         /// 传输队列对象类型
