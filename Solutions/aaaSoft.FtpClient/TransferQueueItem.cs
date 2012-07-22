@@ -120,6 +120,8 @@ namespace aaaSoft.FtpClient
                         return LocalPath;
                     case TransferQueueItemTypeEnum.Upload:
                         return RemotePath;
+                    case TransferQueueItemTypeEnum.Delete:
+                        return RemoteBaseFile.Name;
                 }
                 return "未定义";
             }
