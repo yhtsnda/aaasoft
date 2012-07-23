@@ -1254,10 +1254,6 @@ namespace aaaSoft.Net.Ftp
                 {
                     ErrMsg = ex.Message;
                     ErrException = ex;
-
-                    var fcd = new FtpCommandData("");
-                    var rtnData = Execute(fcd);
-
                     return false;
                 }
                 finally
