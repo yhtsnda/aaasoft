@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Security.Cryptography;
+using System.IO;
 
 namespace aaaSoft.Helpers
 {
@@ -17,6 +18,33 @@ namespace aaaSoft.Helpers
         {
             var md5 = MD5.Create();
             return md5.ComputeHash(data);
+        }
+
+        public static byte[] ComputeMD5Hash(Stream stream)
+        {
+            var md5 = MD5.Create();
+            return md5.ComputeHash(stream);
+        }
+
+        public static byte[] ComputeMD5Hash(FileInfo fileInfo)
+        {
+            Stream localFileStream = null;
+            Exception exception = null;
+            try
+            {
+                localFileStream = fileInfo.OpenRead();
+                return CryptographyHelper.ComputeMD5Hash(localFileStream);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+            finally
+            {
+                try { localFileStream.Close(); }
+                catch { }
+            }
+            throw exception;
         }
 
         public static byte[] DesEncrypt(byte[] data, byte[] password)
