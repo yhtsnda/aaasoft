@@ -10,6 +10,18 @@ namespace aaaSoft.Helpers
 {
     public partial class InputForm : Form
     {
+        public Boolean IsPassword
+        {
+            get { return txtInput.PasswordChar != Char.MinValue; }
+            set 
+            {
+                if (value)
+                    txtInput.PasswordChar = '●';
+                else
+                    txtInput.PasswordChar = Char.MinValue;
+            }
+        }
+
         public InputForm(String Title, String Description, String DefaultValue)
         {
             InitializeComponent();
@@ -43,7 +55,13 @@ namespace aaaSoft.Helpers
 
         public static String GetInput(String Title, String Description, String DefaultValue)
         {
+            return GetInput(Title, Description, DefaultValue, false);
+        }
+
+        public static String GetInput(String Title, String Description, String DefaultValue, Boolean isPassword)
+        {
             var form = new InputForm(Title, Description, DefaultValue);
+            form.IsPassword = isPassword;
             var dr = form.ShowDialog();
             if (dr == DialogResult.Cancel) return null;
             return form.Value;
