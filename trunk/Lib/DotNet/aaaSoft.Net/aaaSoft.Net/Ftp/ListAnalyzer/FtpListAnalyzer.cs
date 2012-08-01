@@ -26,16 +26,8 @@ namespace aaaSoft.Net.Ftp.ListAnalyzer
             //如果使用的是LIST命令
             else
             {
-                if (site.FtpServerWelcomeText.Contains("Serv-U FTP Server"))
-                {
-                    return new ServuFtpListAnalyzer();
-                }
-                else if (site.FtpServerWelcomeText.Contains("Microsoft FTP Service"))
-                {
-                    return new MicrosoftFtpListAnalyzer();
-                }
+                return new ListLineAnalyzer();
             }
-            return new ServuFtpListAnalyzer();
         }
 
         public FtpBaseFileInfo GetFtpBaseFileInfo(String FileName, Int64 FileSize, bool IsFolder, String FileProperty, DateTime FileLastWriteTime)

@@ -1,0 +1,25 @@
+﻿目录列表样式(MS-DOS)：
+06-07-12  10:57AM             15101940 CS_GO.flv
+08-01-12  03:17PM       <DIR>          NewFolder
+07-31-12  04:53PM               151928 ssmp_client_core-20120731.zip
+07-06-12  05:55PM                 2489 乾威云阵预警机.htm
+08-01-12  03:18PM       <DIR>          乾威云阵预警机_files
+
+06-07-2012  10:57AM             15101940 CS GO.flv
+
+UNIX样式：
+-rwxrwxrwx   1 owner    group        15101940 Jun  7 10:57 CS_GO.flv
+drwxrwxrwx   1 owner    group               0 Aug  1 15:17 NewFolder
+-rwxrwxrwx   1 owner    group          151928 Jul 31 16:53 ssmp_client_core-20120731.zip
+-rwxrwxrwx   1 owner    group            2489 Jul  6 17:55 乾威云阵预警机.htm
+drwxrwxrwx   1 owner    group               0 Aug  1 15:18 乾威云阵预警机_files
+
+
+-rwxrwxrwx   1 owner    group        15101940 Jun  7 10:57 CS GO.flv
+-rwxrwxrwx   1 owner    group        15101940 Jun  7 10:57 CS GO.flv
+
+MLSD样式：
+type=dir;modify=20120724075935; ActiveX
+type=file;modify=20120724080005;size=218; Autorun.inf
+type=dir;modify=20120724075937; Driver
+type=dir;modify=20120724080923; JDCS

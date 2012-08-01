@@ -45,9 +45,8 @@
     <Compile Include="Ftp\FtpBaseFileInfo.cs" />
     <Compile Include="Ftp\FtpClient.cs" />
     <Compile Include="Ftp\ListAnalyzer\FtpListAnalyzer.cs" />
-    <Compile Include="Ftp\ListAnalyzer\MicrosoftFtpListAnalyzer.cs" />
+    <Compile Include="Ftp\ListAnalyzer\ListLineAnalyzer.cs" />
     <Compile Include="Ftp\ListAnalyzer\MlsdLineAnalyzer.cs" />
-    <Compile Include="Ftp\ListAnalyzer\ServuFtpListAnalyzer.cs" />
     <Compile Include="Http\HttpClient.cs" />
     <Compile Include="Http\HttpServer.cs" />
     <Compile Include="Http\HttpSpider.cs" />
@@ -76,7 +75,9 @@
       <Name>aaaSoft.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Ftp\ListAnalyzer\LIST与MLSD命令目录列表样式.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
