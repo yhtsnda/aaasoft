@@ -122,7 +122,7 @@ namespace aaaSoft.FtpClient
             _FtpClient.IsNotSupportFEAT = IsNotSupportFEAT;
             _FtpClient.StringEncoding = StringEncoding;
             _FtpClient.BufferSize = BufferSize;
-            
+            _FtpClient.Tag = this;
         }
     }
 }
