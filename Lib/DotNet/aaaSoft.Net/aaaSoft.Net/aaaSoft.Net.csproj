@@ -47,6 +47,8 @@
     <Compile Include="Ftp\ListAnalyzer\FtpListAnalyzer.cs" />
     <Compile Include="Ftp\ListAnalyzer\ListLineAnalyzer.cs" />
     <Compile Include="Ftp\ListAnalyzer\MlsdLineAnalyzer.cs" />
+    <Compile Include="Ftp\TransferQueue.cs" />
+    <Compile Include="Ftp\TransferQueueItem.cs" />
     <Compile Include="Http\HttpClient.cs" />
     <Compile Include="Http\HttpServer.cs" />
     <Compile Include="Http\HttpSpider.cs" />
