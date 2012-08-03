@@ -113,6 +113,10 @@ namespace aaaSoft.Net.Ftp
         /// 是否支持MLSD/MLST命令
         /// </summary>
         public bool IsSupportMLSD = false;
+        /// <summary>
+        /// 是否支持MFMT命令
+        /// </summary>
+        public bool IsSupportMFMT = false;
         #endregion
 
         #region 运行数据部分
@@ -700,6 +704,7 @@ namespace aaaSoft.Net.Ftp
                         if (FtpServerFeatString.Contains("XCRC")) IsSupportXCRC = true;
                         if (FtpServerFeatString.Contains("MODE Z")) IsSupportMODE_Z = true;
                         if (FtpServerFeatString.Contains("MLST")) IsSupportMLSD = true;
+                        if (FtpServerFeatString.Contains("MFMT")) IsSupportMFMT = true;
                     }
                     //得到默认目录
                     fcd = new FtpCommandData("PWD");
@@ -1249,9 +1254,19 @@ namespace aaaSoft.Net.Ftp
                     rtnData = Execute(fcd);
                     if (!CheckReturnCode(rtnData, "226")) return false;
 
-                    //修改远端文件的最后一次修改时间
-                    fcd = new FtpCommandData("MDTM", String.Format("{0} {1}", lastModifyTime.ToString("yyyyMMddHHmmss"), RemoteFileName));
-                    rtnData = Execute(fcd);
+                    //修改远端文件的最后一次修改时间,备注：MDTM
+                    String modifyTimeCommand = null;
+                    if (IsSupportMDTM)
+                        modifyTimeCommand = "MDTM";
+                    if (IsSupportMFMT)
+                        modifyTimeCommand = "MFMT";
+
+                    //修改文件的最后修改时间
+                    if (!String.IsNullOrEmpty(modifyTimeCommand))
+                    {
+                        fcd = new FtpCommandData(modifyTimeCommand, String.Format("{0} {1}", lastModifyTime.ToString("yyyyMMddHHmmss"), RemoteFileName));
+                        rtnData = Execute(fcd);
+                    }
                     return true;
                 }
                 catch (Exception ex)
