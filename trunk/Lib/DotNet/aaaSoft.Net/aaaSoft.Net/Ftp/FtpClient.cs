@@ -37,6 +37,10 @@ namespace aaaSoft.Net.Ftp
         /// 密码
         /// </summary>
         public String Password;
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public Object Tag;
 
         #region 设置部分
         /// <summary>
