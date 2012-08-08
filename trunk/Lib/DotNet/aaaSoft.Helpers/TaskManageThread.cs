@@ -53,7 +53,6 @@ namespace aaaSoft.Helpers
         /// 任务执行完成时
         /// </summary>
         public event EventHandler<TaskCompletedEventArgs> TaskCompleted;
-        
         /// <summary>
         /// 任务执行完成事件参数
         /// </summary>
@@ -114,7 +113,17 @@ namespace aaaSoft.Helpers
         /// <typeparam name="T"></typeparam>
         public interface ITaskHandller<TaskType, TaskResultType>
         {
+            /// <summary>
+            /// 处理任务
+            /// </summary>
+            /// <param name="Task"></param>
+            /// <param name="TaskManageThread"></param>
+            /// <returns></returns>
             TaskResultType Handle(TaskType Task, TaskManagerThread<TaskType, TaskResultType> TaskManageThread);
+            /// <summary>
+            /// 当线程退出时
+            /// </summary>
+            void ThreadExiting();
         }
 
         public void Start()
@@ -285,6 +294,7 @@ namespace aaaSoft.Helpers
                         workingThreadList.Remove(currentThread);
                 }
             }
+            taskHandller.ThreadExiting();
         }
     }
 }
