@@ -92,12 +92,10 @@ namespace aaaSoft.Net.Ftp
         /// 远端基本文件对象(可能是文件或目录)
         /// </summary>
         public FtpBaseFileInfo RemoteBaseFile { get; set; }
-
-        private FtpClient _FtpClient;
         /// <summary>
         /// FTP站点
         /// </summary>
-        public FtpClient FtpClient { get { return _FtpClient; } }
+        public FtpClient FtpClient { get; set; }
         /// <summary>
         /// 备注
         /// </summary>
@@ -129,7 +127,7 @@ namespace aaaSoft.Net.Ftp
         /// <param name="Site"></param>
         public TransferQueueItem(FtpClient Site)
         {
-            this._FtpClient = Site;
+            this.FtpClient = Site;
         }
     }
 }
