@@ -97,7 +97,7 @@ namespace aaaSoft.Helpers
                 return;
 
             Int32 queueCount = GetTaskQueueCount();
-            if (queueCount > TaskCountThreshold)
+            if (queueCount >= TaskCountThreshold)
             {
                 expectThreadCount = MaxThreadCount;
             }
