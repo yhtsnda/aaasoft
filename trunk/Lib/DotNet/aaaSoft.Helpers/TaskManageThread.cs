@@ -65,7 +65,6 @@ namespace aaaSoft.Helpers
         public TaskManagerThread(ITaskHandller<TaskType, TaskResultType> taskHandller)
         {
             this.taskHandller = taskHandller;
-            this.TaskQueueChanged += new EventHandler(TaskManagerThread_TaskQueueChanged);
             this.TaskCompleted += new EventHandler<TaskCompletedEventArgs>(TaskManagerThread_TaskCompleted);
         }
 
@@ -89,24 +88,7 @@ namespace aaaSoft.Helpers
                     TaskQueueCompleted.Invoke(this, e);                
             }
         }
-
-        //任务队列改变时，自动调整期望线程数
-        private void TaskManagerThread_TaskQueueChanged(object sender, EventArgs e)
-        {
-            if (!IsAutoControlThreadCount)
-                return;
-
-            Int32 queueCount = GetTaskQueueCount();
-            if (queueCount >= TaskCountThreshold)
-            {
-                expectThreadCount = MaxThreadCount;
-            }
-            else
-            {
-                expectThreadCount = (MaxThreadCount - MinThreadCount) * queueCount / TaskCountThreshold + MinThreadCount;
-            }
-        }
-
+        
         /// <summary>
         /// 任务处理器接口
         /// </summary>
@@ -205,6 +187,22 @@ namespace aaaSoft.Helpers
         {
             return workingThreadList.Count;
         }
+        //计算期望线程数
+        private Int32 computeExpertThreadCount()
+        {
+            if (!IsAutoControlThreadCount)
+                return expectThreadCount;
+
+            Int32 queueCount = GetTaskQueueCount() + GetCurrentWorkingThreadCount();
+            if (queueCount >= TaskCountThreshold)
+            {
+                return MaxThreadCount;
+            }
+            else
+            {
+                return (MaxThreadCount - MinThreadCount) * queueCount / TaskCountThreshold + MinThreadCount;
+            }
+        }
 
         //任务管理线程方法
         private void taskManageThreadFunction()
@@ -214,6 +212,8 @@ namespace aaaSoft.Helpers
                 while (true)
                 {
                     Thread.Sleep(100);
+
+                    expectThreadCount = computeExpertThreadCount();
                     Int32 currentThreadCount = GetCurrentThreadCount();
                     
                     //如果当前线程数小于期望线程数
