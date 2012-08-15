@@ -220,11 +220,16 @@ namespace aaaSoft.Helpers
         {
             try
             {
+                DateTime lastComputedExpertThreadCountTime = DateTime.MinValue;
                 while (true)
                 {
                     Thread.Sleep(100);
-
-                    expectThreadCount = computeExpertThreadCount();
+                    //如果距上次计算期望线程数大于1秒，则重新计算
+                    if ((DateTime.Now - lastComputedExpertThreadCountTime).TotalSeconds > 1)
+                    {
+                        expectThreadCount = computeExpertThreadCount();
+                        lastComputedExpertThreadCountTime = DateTime.Now;
+                    }
                     Int32 currentThreadCount = GetCurrentThreadCount();
                     
                     //如果当前线程数小于期望线程数
