@@ -42,6 +42,15 @@ namespace aaaSoft.Helpers
         public Boolean IsAutoControlThreadCount = true;
 
         /// <summary>
+        /// 任务添加时
+        /// </summary>
+        public event EventHandler<TaskAddingEventArgs> TaskAdding;
+        public class TaskAddingEventArgs : EventArgs
+        {
+            public TaskType Task;
+        }
+
+        /// <summary>
         /// 任务队列改变时
         /// </summary>
         public event EventHandler TaskQueueChanged;
@@ -133,6 +142,8 @@ namespace aaaSoft.Helpers
         {
             lock (taskQueue)
             {
+                if (TaskAdding != null)
+                    TaskAdding.Invoke(this, new TaskAddingEventArgs() { Task = t });
                 taskQueue.Enqueue(t);
                 if (TaskQueueChanged != null)
                     TaskQueueChanged.Invoke(this, null);
