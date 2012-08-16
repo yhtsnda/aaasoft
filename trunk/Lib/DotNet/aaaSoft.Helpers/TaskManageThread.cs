@@ -12,7 +12,7 @@ namespace aaaSoft.Helpers
         //任务处理器
         private ITaskHandller<TaskType, TaskResultType> taskHandller = null;
         //任务列表
-        private Queue<TaskType> taskQueue = new Queue<TaskType>();
+        private List<TaskType> taskQueue = new List<TaskType>();
         //处理任务线程列表
         private List<Thread> handleTaskThreadList = new List<Thread>();
         // 正在工作的线程列表(即非空转的线程列表)
@@ -47,7 +47,14 @@ namespace aaaSoft.Helpers
         public event EventHandler<TaskAddingEventArgs> TaskAdding;
         public class TaskAddingEventArgs : EventArgs
         {
+            /// <summary>
+            /// 任务
+            /// </summary>
             public TaskType Task;
+            /// <summary>
+            /// 所在位置
+            /// </summary>
+            public Int32 Index;
         }
 
         /// <summary>
@@ -135,6 +142,22 @@ namespace aaaSoft.Helpers
         }
 
         /// <summary>
+        /// 插队
+        /// </summary>
+        /// <param name="t"></param>
+        public void Jumpqueue(TaskType t)
+        {
+            lock (taskQueue)
+            {
+                if (TaskAdding != null)
+                    TaskAdding.Invoke(this, new TaskAddingEventArgs() { Task = t, Index = 0 });
+                taskQueue.Insert(0, t);
+                if (TaskQueueChanged != null)
+                    TaskQueueChanged.Invoke(this, null);
+            }
+        }
+
+        /// <summary>
         /// 入队列
         /// </summary>
         /// <param name="t"></param>
@@ -143,8 +166,8 @@ namespace aaaSoft.Helpers
             lock (taskQueue)
             {
                 if (TaskAdding != null)
-                    TaskAdding.Invoke(this, new TaskAddingEventArgs() { Task = t });
-                taskQueue.Enqueue(t);
+                    TaskAdding.Invoke(this, new TaskAddingEventArgs() { Task = t, Index = taskQueue.Count });
+                taskQueue.Add(t);
                 if (TaskQueueChanged != null)
                     TaskQueueChanged.Invoke(this, null);
             }
@@ -162,7 +185,8 @@ namespace aaaSoft.Helpers
                 if (taskQueue.Count == 0)
                     return default(TaskType);
 
-                TaskType t = taskQueue.Dequeue();
+                TaskType t = taskQueue[0];
+                taskQueue.RemoveAt(0);
                 if (t != null && TaskQueueChanged != null)
                     TaskQueueChanged.Invoke(this, null);
                 return t;

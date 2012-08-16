@@ -55,13 +55,24 @@ namespace aaaSoft.Helpers
 
         public static String GetInput(String Title, String Description, String DefaultValue)
         {
-            return GetInput(Title, Description, DefaultValue, false);
+            return GetInput(Title, Description, DefaultValue, null, false);
         }
 
-        public static String GetInput(String Title, String Description, String DefaultValue, Boolean isPassword)
+        public static String GetInput(String Title, String Description, String DefaultValue, Form owner, Boolean isPassword)
         {
             var form = new InputForm(Title, Description, DefaultValue);
+            form.TopLevel = true;
+            form.TopMost = true;
+            form.BringToFront();
             form.IsPassword = isPassword;
+            if (owner == null)
+            {
+                form.StartPosition = FormStartPosition.CenterScreen;
+            }
+            else
+            {
+                form.StartPosition = FormStartPosition.CenterParent;
+            }
             var dr = form.ShowDialog();
             if (dr == DialogResult.Cancel) return null;
             return form.Value;
