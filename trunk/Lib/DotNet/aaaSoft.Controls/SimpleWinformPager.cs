@@ -17,7 +17,7 @@ namespace aaaSoft.Controls
 
         private Int32 _PageIndex = 1;
         /// <summary>
-        /// 获取或设置当前页码
+        /// 获取或设置当前页码(从1开始)
         /// </summary>
         public Int32 PageIndex
         {
@@ -26,16 +26,29 @@ namespace aaaSoft.Controls
             {
                 //如果超出范围
                 if (value < 1)
-                    return;
+                    value = 1;
 
                 _PageIndex = value;
 
-                txtPageIndex.Text = _PageIndex.ToString();                
+                txtPageIndex.Text = _PageIndex.ToString();
                 //触发页码改变事件
                 if (PageIndexChanged != null)
                     PageIndexChanged(this, new EventArgs());
                 CheckPageChangeButton();
+
+                if (PageIndex > PageCount && PageIndex > 1)
+                {
+                    PageIndex = PageCount;
+                }
             }
+        }
+
+        /// <summary>
+        /// 刷新
+        /// </summary>
+        public void Refresh()
+        {
+            PageIndex = PageIndex;
         }
 
         private Int32 _PageSize = 20;
@@ -77,21 +90,26 @@ namespace aaaSoft.Controls
                 {
                     _RecordCount = value;
                     txtPageIndex.Text = _PageIndex.ToString();
-                    lblTotalPageCount.Text = String.Format(PageCountStringFormat, PageCount);
+                    lblTotalPageCount.Text = PageCountStringFormat
+                        .Replace("{pageCount}", PageCount.ToString())
+                        .Replace("{recordCount}", RecordCount.ToString());
+                    if (PageIndex > PageCount && PageIndex > 1)
+                        PageIndex = PageCount;
                 }
             }
         }
 
-        private String _PageCountStringFormat = "页/{0}页";
+        private String _PageCountStringFormat = "页/{pageCount}页，共{recordCount}条记录";
         /// <summary>
         /// 总页数显示格式
         /// </summary>
         public String PageCountStringFormat
         {
             get { return _PageCountStringFormat; }
-            set 
+            set
             {
-                _PageCountStringFormat = value; 
+                _PageCountStringFormat = value;
+                RecordCount = RecordCount;
             }
         }
 

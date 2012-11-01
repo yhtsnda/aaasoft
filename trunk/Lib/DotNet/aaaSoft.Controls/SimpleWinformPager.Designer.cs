@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SimpleWinformPager));
             this.tsPager = new System.Windows.Forms.ToolStrip();
-            this.btnLastPage = new System.Windows.Forms.ToolStripButton();
-            this.btnNextPage = new System.Windows.Forms.ToolStripButton();
-            this.lblTotalPageCount = new System.Windows.Forms.ToolStripLabel();
-            this.txtPageIndex = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-            this.btnPrePage = new System.Windows.Forms.ToolStripButton();
             this.btnFirstPage = new System.Windows.Forms.ToolStripButton();
+            this.btnPrePage = new System.Windows.Forms.ToolStripButton();
+            this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+            this.txtPageIndex = new System.Windows.Forms.ToolStripTextBox();
+            this.lblTotalPageCount = new System.Windows.Forms.ToolStripLabel();
+            this.btnNextPage = new System.Windows.Forms.ToolStripButton();
+            this.btnLastPage = new System.Windows.Forms.ToolStripButton();
             this.tsPager.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,71 +46,18 @@
             this.tsPager.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tsPager.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.tsPager.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnLastPage,
-            this.btnNextPage,
-            this.lblTotalPageCount,
-            this.txtPageIndex,
-            this.toolStripLabel2,
+            this.btnFirstPage,
             this.btnPrePage,
-            this.btnFirstPage});
+            this.toolStripLabel2,
+            this.txtPageIndex,
+            this.lblTotalPageCount,
+            this.btnNextPage,
+            this.btnLastPage});
             this.tsPager.Location = new System.Drawing.Point(0, 0);
             this.tsPager.Name = "tsPager";
-            this.tsPager.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.tsPager.Size = new System.Drawing.Size(216, 25);
+            this.tsPager.Size = new System.Drawing.Size(328, 25);
             this.tsPager.TabIndex = 11;
             this.tsPager.Text = "toolStrip1";
-            // 
-            // btnLastPage
-            // 
-            this.btnLastPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnLastPage.Image = ((System.Drawing.Image)(resources.GetObject("btnLastPage.Image")));
-            this.btnLastPage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnLastPage.Name = "btnLastPage";
-            this.btnLastPage.Size = new System.Drawing.Size(23, 22);
-            this.btnLastPage.Text = "最后一页";
-            this.btnLastPage.Click += new System.EventHandler(this.btnLastPage_Click);
-            // 
-            // btnNextPage
-            // 
-            this.btnNextPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnNextPage.Image = ((System.Drawing.Image)(resources.GetObject("btnNextPage.Image")));
-            this.btnNextPage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNextPage.Name = "btnNextPage";
-            this.btnNextPage.Size = new System.Drawing.Size(23, 22);
-            this.btnNextPage.Text = "下一页";
-            this.btnNextPage.Click += new System.EventHandler(this.btnNextPage_Click);
-            // 
-            // lblTotalPageCount
-            // 
-            this.lblTotalPageCount.Name = "lblTotalPageCount";
-            this.lblTotalPageCount.Size = new System.Drawing.Size(41, 22);
-            this.lblTotalPageCount.Text = "页/0页";
-            // 
-            // txtPageIndex
-            // 
-            this.txtPageIndex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtPageIndex.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.txtPageIndex.Name = "txtPageIndex";
-            this.txtPageIndex.Size = new System.Drawing.Size(40, 25);
-            this.txtPageIndex.Text = "0";
-            this.txtPageIndex.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtPageIndex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPageIndex_KeyUp);
-            // 
-            // toolStripLabel2
-            // 
-            this.toolStripLabel2.Name = "toolStripLabel2";
-            this.toolStripLabel2.Size = new System.Drawing.Size(17, 22);
-            this.toolStripLabel2.Text = "第";
-            // 
-            // btnPrePage
-            // 
-            this.btnPrePage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnPrePage.Image = ((System.Drawing.Image)(resources.GetObject("btnPrePage.Image")));
-            this.btnPrePage.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnPrePage.Name = "btnPrePage";
-            this.btnPrePage.Size = new System.Drawing.Size(23, 22);
-            this.btnPrePage.Text = "上一页";
-            this.btnPrePage.Click += new System.EventHandler(this.btnPrePage_Click);
             // 
             // btnFirstPage
             // 
@@ -122,13 +69,65 @@
             this.btnFirstPage.Text = "第一页";
             this.btnFirstPage.Click += new System.EventHandler(this.btnFirstPage_Click);
             // 
+            // btnPrePage
+            // 
+            this.btnPrePage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnPrePage.Image = ((System.Drawing.Image)(resources.GetObject("btnPrePage.Image")));
+            this.btnPrePage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnPrePage.Name = "btnPrePage";
+            this.btnPrePage.Size = new System.Drawing.Size(23, 22);
+            this.btnPrePage.Text = "上一页";
+            this.btnPrePage.Click += new System.EventHandler(this.btnPrePage_Click);
+            // 
+            // toolStripLabel2
+            // 
+            this.toolStripLabel2.Name = "toolStripLabel2";
+            this.toolStripLabel2.Size = new System.Drawing.Size(17, 22);
+            this.toolStripLabel2.Text = "第";
+            // 
+            // txtPageIndex
+            // 
+            this.txtPageIndex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPageIndex.Font = new System.Drawing.Font("宋体", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.txtPageIndex.Name = "txtPageIndex";
+            this.txtPageIndex.Size = new System.Drawing.Size(40, 25);
+            this.txtPageIndex.Text = "0";
+            this.txtPageIndex.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtPageIndex.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPageIndex_KeyUp);
+            // 
+            // lblTotalPageCount
+            // 
+            this.lblTotalPageCount.Name = "lblTotalPageCount";
+            this.lblTotalPageCount.Size = new System.Drawing.Size(101, 22);
+            this.lblTotalPageCount.Text = "页/?页,共?条记录";
+            // 
+            // btnNextPage
+            // 
+            this.btnNextPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnNextPage.Image = ((System.Drawing.Image)(resources.GetObject("btnNextPage.Image")));
+            this.btnNextPage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNextPage.Name = "btnNextPage";
+            this.btnNextPage.Size = new System.Drawing.Size(23, 22);
+            this.btnNextPage.Text = "下一页";
+            this.btnNextPage.Click += new System.EventHandler(this.btnNextPage_Click);
+            // 
+            // btnLastPage
+            // 
+            this.btnLastPage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnLastPage.Image = ((System.Drawing.Image)(resources.GetObject("btnLastPage.Image")));
+            this.btnLastPage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnLastPage.Name = "btnLastPage";
+            this.btnLastPage.Size = new System.Drawing.Size(23, 22);
+            this.btnLastPage.Text = "最后一页";
+            this.btnLastPage.Click += new System.EventHandler(this.btnLastPage_Click);
+            // 
             // SimpleWinformPager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tsPager);
             this.Name = "SimpleWinformPager";
-            this.Size = new System.Drawing.Size(216, 25);
+            this.Size = new System.Drawing.Size(328, 25);
             this.tsPager.ResumeLayout(false);
             this.tsPager.PerformLayout();
             this.ResumeLayout(false);
