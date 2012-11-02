@@ -86,16 +86,13 @@ namespace aaaSoft.Controls
             get { return _RecordCount; }
             set
             {
-                if (_RecordCount != value)
-                {
-                    _RecordCount = value;
-                    txtPageIndex.Text = _PageIndex.ToString();
-                    lblTotalPageCount.Text = PageCountStringFormat
-                        .Replace("{pageCount}", PageCount.ToString())
-                        .Replace("{recordCount}", RecordCount.ToString());
-                    if (PageIndex > PageCount && PageIndex > 1)
-                        PageIndex = PageCount;
-                }
+                _RecordCount = value;
+                txtPageIndex.Text = _PageIndex.ToString();
+                lblTotalPageCount.Text = PageCountStringFormat
+                    .Replace("{pageCount}", PageCount.ToString())
+                    .Replace("{recordCount}", RecordCount.ToString());
+                if (PageIndex > PageCount && PageIndex > 1)
+                    PageIndex = PageCount;
             }
         }
 
