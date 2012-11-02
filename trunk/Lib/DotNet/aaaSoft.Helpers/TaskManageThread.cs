@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace aaaSoft.Helpers
 {
-    public class TaskManagerThread<TaskType,TaskResultType>
+    public class TaskManagerThread<TaskType,TaskResultType> : IDisposable
     {
         private Thread trdManageTask = null;
         //任务处理器
@@ -19,7 +19,7 @@ namespace aaaSoft.Helpers
         private List<Thread> workingThreadList = new List<Thread>();
         // 期望线程数
         private Int32 expectThreadCount = 1;
-
+        
         /// <summary>
         /// 任务队列是否已完成
         /// </summary>
@@ -84,6 +84,26 @@ namespace aaaSoft.Helpers
             this.TaskCompleted += new EventHandler<TaskCompletedEventArgs>(TaskManagerThread_TaskCompleted);
         }
 
+        public void Dispose()
+        {
+            taskHandller.Dispose();
+            taskHandller = null;
+
+            taskQueue.Clear();
+            taskQueue = null;
+
+            handleTaskThreadList.Clear();
+            handleTaskThreadList = null;
+
+            workingThreadList.Clear();
+            workingThreadList = null;
+
+            this.TaskAdding = null;
+            this.TaskCompleted = null;
+            this.TaskQueueChanged = null;
+            this.TaskQueueCompleted = null;
+        }
+
         //任务完成时，判断队列是否完成
         void TaskManagerThread_TaskCompleted(object sender, TaskManagerThread<TaskType, TaskResultType>.TaskCompletedEventArgs e)
         {
@@ -109,7 +129,7 @@ namespace aaaSoft.Helpers
         /// 任务处理器接口
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public interface ITaskHandller<TaskType, TaskResultType>
+        public interface ITaskHandller<TaskType, TaskResultType> : IDisposable
         {
             /// <summary>
             /// 处理任务
@@ -180,16 +200,22 @@ namespace aaaSoft.Helpers
         /// <returns></returns>
         public TaskType Dequeue()
         {
-            lock (taskQueue)
+            lock (this)
             {
-                if (taskQueue.Count == 0)
+                if (taskQueue == null)
                     return default(TaskType);
 
-                TaskType t = taskQueue[0];
-                taskQueue.RemoveAt(0);
-                if (t != null && TaskQueueChanged != null)
-                    TaskQueueChanged.Invoke(this, null);
-                return t;
+                lock (taskQueue)
+                {
+                    if (taskQueue.Count == 0)
+                        return default(TaskType);
+
+                    TaskType t = taskQueue[0];
+                    taskQueue.RemoveAt(0);
+                    if (t != null && TaskQueueChanged != null)
+                        TaskQueueChanged.Invoke(this, null);
+                    return t;
+                }
             }
         }
 
@@ -199,9 +225,14 @@ namespace aaaSoft.Helpers
         /// <returns></returns>
         public Int32 GetTaskQueueCount()
         {
-            lock (taskQueue)
+            lock (this)
             {
-                return taskQueue.Count;
+                if (taskQueue == null)
+                    return 0;
+                lock (taskQueue)
+                {
+                    return taskQueue.Count;
+                }
             }
         }
 
@@ -211,7 +242,12 @@ namespace aaaSoft.Helpers
         /// <returns></returns>
         public Int32 GetCurrentThreadCount()
         {
-            return handleTaskThreadList.Count;
+            lock (this)
+            {
+                if (handleTaskThreadList == null)
+                    return 0;
+                return handleTaskThreadList.Count;
+            }
         }
 
         /// <summary>
@@ -220,7 +256,12 @@ namespace aaaSoft.Helpers
         /// <returns></returns>
         public Int32 GetCurrentWorkingThreadCount()
         {
-            return workingThreadList.Count;
+            lock (this)
+            {
+                if (workingThreadList == null)
+                    return 0;
+                return workingThreadList.Count;
+            }
         }
         //计算期望线程数
         private Int32 computeExpertThreadCount()
@@ -259,9 +300,15 @@ namespace aaaSoft.Helpers
                     //如果当前线程数小于期望线程数
                     if (currentThreadCount < expectThreadCount)
                     {
-                        Thread newThread = new Thread(handleTaskThreadFunction);
-                        newThread.Start();
-                        handleTaskThreadList.Add(newThread);
+                        lock (this)
+                        {
+                            if (handleTaskThreadList != null)
+                            {
+                                Thread newThread = new Thread(handleTaskThreadFunction);
+                                newThread.Start();
+                                handleTaskThreadList.Add(newThread);
+                            }
+                        }
                     }
                 }
             }
@@ -285,12 +332,18 @@ namespace aaaSoft.Helpers
                 {
                     Thread.Sleep(100);
 
-                    lock (handleTaskThreadList)
+                    lock (this)
                     {
-                        Int32 currentThreadCount = GetCurrentThreadCount();
-                        //如果当前线程数大于期望线程数
-                        if (currentThreadCount > expectThreadCount)
-                            break;
+                        if (handleTaskThreadList != null)
+                        {
+                            lock (handleTaskThreadList)
+                            {
+                                Int32 currentThreadCount = GetCurrentThreadCount();
+                                //如果当前线程数大于期望线程数
+                                if (currentThreadCount > expectThreadCount)
+                                    break;
+                            }
+                        }
                     }
 
                     //取出任务
@@ -323,18 +376,26 @@ namespace aaaSoft.Helpers
             }
             finally
             {
-                lock (handleTaskThreadList)
+                if (handleTaskThreadList != null)
                 {
-                    if (handleTaskThreadList.Contains(currentThread))
-                        handleTaskThreadList.Remove(currentThread);
+                    lock (handleTaskThreadList)
+                    {
+                        if (handleTaskThreadList.Contains(currentThread))
+                            handleTaskThreadList.Remove(currentThread);
+                    }
                 }
-                lock (workingThreadList)
+                if (workingThreadList != null)
                 {
-                    if (workingThreadList.Contains(currentThread))
-                        workingThreadList.Remove(currentThread);
+                    lock (workingThreadList)
+                    {
+                        if (workingThreadList.Contains(currentThread))
+                            workingThreadList.Remove(currentThread);
+                    }
                 }
+
+                if (taskHandller != null)
+                    taskHandller.ThreadExiting();
             }
-            taskHandller.ThreadExiting();
         }
     }
 }
