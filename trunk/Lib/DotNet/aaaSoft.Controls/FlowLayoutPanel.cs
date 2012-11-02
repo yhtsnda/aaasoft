@@ -7,23 +7,28 @@ namespace aaaSoft.Controls
 {
     public class FlowLayoutPanel : System.Windows.Forms.FlowLayoutPanel
     {
-        private const Int32 ScrollBarWidth = 24;
+        public FlowLayoutPanel()
+        {
+            AutoScroll = true;
+            HScroll = false;
+        }
+
         protected override void OnSizeChanged(EventArgs e)
         {
+            ResizeAllControl();
+            this.AutoScroll = !this.AutoScroll;
+            this.AutoScroll = !this.AutoScroll;
             base.OnSizeChanged(e);
+        }
+
+        private void ResizeAllControl()
+        {
             foreach (Control control in this.Controls)
                 ResizeControl(control);
         }
-
         private void ResizeControl(Control control)
         {
-            if (control.Width != this.Width - ScrollBarWidth)
-            {
-                var tmpWidth = this.Width - ScrollBarWidth;
-                if (tmpWidth < control.MinimumSize.Width)
-                    tmpWidth = control.MinimumSize.Width;
-                control.Width = tmpWidth;
-            }
+            control.Width = this.ClientSize.Width - control.Margin.Size.Width;
         }
 
         protected override void OnControlAdded(System.Windows.Forms.ControlEventArgs e)
