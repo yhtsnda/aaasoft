@@ -10,7 +10,6 @@ namespace aaaSoft.Controls
         public FlowLayoutPanel()
         {
             AutoScroll = true;
-            HScroll = false;
         }
 
         protected override void OnSizeChanged(EventArgs e)
