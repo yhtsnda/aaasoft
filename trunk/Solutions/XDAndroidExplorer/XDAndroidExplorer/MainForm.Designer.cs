@@ -64,14 +64,15 @@
 			this.btnAdbSendCmd = new System.Windows.Forms.Button();
 			this.txtAdbInput = new System.Windows.Forms.TextBox();
 			this.tpShowcase = new System.Windows.Forms.TabPage();
+			this.btnMountSystemWrite = new System.Windows.Forms.Button();
 			this.btnPoweroff = new System.Windows.Forms.Button();
 			this.btnRebootRecovery = new System.Windows.Forms.Button();
 			this.btnReboot = new System.Windows.Forms.Button();
 			this.tpAbout = new System.Windows.Forms.TabPage();
+			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.lblVersion = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.pbScbeta = new System.Windows.Forms.PictureBox();
-			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.tcMain.SuspendLayout();
 			this.tpFileManager.SuspendLayout();
 			this.tsAddress.SuspendLayout();
@@ -165,6 +166,7 @@
 			this.txtAddress.AutoSize = false;
 			this.txtAddress.Name = "txtAddress";
 			this.txtAddress.Size = new System.Drawing.Size(500, 25);
+			this.txtAddress.KeyUp += new System.Windows.Forms.KeyEventHandler(this.TxtAddressKeyUp);
 			// 
 			// btnGotoFolder
 			// 
@@ -402,6 +404,7 @@
 			// 
 			// tpShowcase
 			// 
+			this.tpShowcase.Controls.Add(this.btnMountSystemWrite);
 			this.tpShowcase.Controls.Add(this.btnPoweroff);
 			this.tpShowcase.Controls.Add(this.btnRebootRecovery);
 			this.tpShowcase.Controls.Add(this.btnReboot);
@@ -413,12 +416,22 @@
 			this.tpShowcase.Text = "常用功能";
 			this.tpShowcase.UseVisualStyleBackColor = true;
 			// 
+			// btnMountSystemWrite
+			// 
+			this.btnMountSystemWrite.Location = new System.Drawing.Point(19, 64);
+			this.btnMountSystemWrite.Name = "btnMountSystemWrite";
+			this.btnMountSystemWrite.Size = new System.Drawing.Size(123, 23);
+			this.btnMountSystemWrite.TabIndex = 1;
+			this.btnMountSystemWrite.Text = "挂载/system为可写";
+			this.btnMountSystemWrite.UseVisualStyleBackColor = true;
+			this.btnMountSystemWrite.Click += new System.EventHandler(this.BtnMountSystemWriteClick);
+			// 
 			// btnPoweroff
 			// 
 			this.btnPoweroff.Enabled = false;
-			this.btnPoweroff.Location = new System.Drawing.Point(19, 64);
+			this.btnPoweroff.Location = new System.Drawing.Point(19, 93);
 			this.btnPoweroff.Name = "btnPoweroff";
-			this.btnPoweroff.Size = new System.Drawing.Size(101, 23);
+			this.btnPoweroff.Size = new System.Drawing.Size(123, 23);
 			this.btnPoweroff.TabIndex = 0;
 			this.btnPoweroff.Text = "关机";
 			this.btnPoweroff.UseVisualStyleBackColor = true;
@@ -428,7 +441,7 @@
 			// 
 			this.btnRebootRecovery.Location = new System.Drawing.Point(19, 35);
 			this.btnRebootRecovery.Name = "btnRebootRecovery";
-			this.btnRebootRecovery.Size = new System.Drawing.Size(101, 23);
+			this.btnRebootRecovery.Size = new System.Drawing.Size(123, 23);
 			this.btnRebootRecovery.TabIndex = 0;
 			this.btnRebootRecovery.Text = "进入Recovery";
 			this.btnRebootRecovery.UseVisualStyleBackColor = true;
@@ -438,7 +451,7 @@
 			// 
 			this.btnReboot.Location = new System.Drawing.Point(19, 6);
 			this.btnReboot.Name = "btnReboot";
-			this.btnReboot.Size = new System.Drawing.Size(101, 23);
+			this.btnReboot.Size = new System.Drawing.Size(123, 23);
 			this.btnReboot.TabIndex = 0;
 			this.btnReboot.Text = "重启";
 			this.btnReboot.UseVisualStyleBackColor = true;
@@ -457,6 +470,16 @@
 			this.tpAbout.TabIndex = 4;
 			this.tpAbout.Text = "关于";
 			this.tpAbout.UseVisualStyleBackColor = true;
+			// 
+			// textBox1
+			// 
+			this.textBox1.Location = new System.Drawing.Point(92, 130);
+			this.textBox1.Multiline = true;
+			this.textBox1.Name = "textBox1";
+			this.textBox1.ReadOnly = true;
+			this.textBox1.Size = new System.Drawing.Size(566, 281);
+			this.textBox1.TabIndex = 3;
+			this.textBox1.Text = "Made by aaaSoft\r\nEmail:scbeta@qq.com\r\n\r\n更新时间：2012-11-22";
 			// 
 			// lblVersion
 			// 
@@ -490,16 +513,6 @@
 			this.pbScbeta.TabStop = false;
 			this.pbScbeta.Click += new System.EventHandler(this.pbScbeta_Click);
 			// 
-			// textBox1
-			// 
-			this.textBox1.Location = new System.Drawing.Point(92, 130);
-			this.textBox1.Multiline = true;
-			this.textBox1.Name = "textBox1";
-			this.textBox1.ReadOnly = true;
-			this.textBox1.Size = new System.Drawing.Size(566, 281);
-			this.textBox1.TabIndex = 3;
-			this.textBox1.Text = "Made by aaaSoft\r\nEmail:scbeta@qq.com\r\n\r\n更新时间：2012-6-10";
-			// 
 			// MainForm
 			// 
 			this.AllowDrop = true;
@@ -531,6 +544,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.pbScbeta)).EndInit();
 			this.ResumeLayout(false);
 		}
+		private System.Windows.Forms.Button btnMountSystemWrite;
 		private System.Windows.Forms.TextBox textBox1;
 
 		#endregion

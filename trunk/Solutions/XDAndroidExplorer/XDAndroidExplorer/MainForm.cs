@@ -46,6 +46,16 @@ namespace XDAndroidExplorer
 
 		#region 文件管理选项卡
 
+		#region 地址栏按下回车时
+		void TxtAddressKeyUp(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.Enter)
+			{
+				btnGotoFolder_Click(sender,e);
+			}
+		}
+		#endregion
+		
 		#region 转到目录
 		//转到目录
 		private void GotoFolder(String folderPath)
@@ -83,20 +93,22 @@ namespace XDAndroidExplorer
 				newLvi.SubItems.Add(baseFile.OwnerGroup);
 				
 				int imageIndex = 0;
-				if (baseFile is XDAndroidExplorer.Core.IO.Folder)
+				
+				if (baseFile.FullName.ToLower() == "/sdcard")
 				{
-					if (baseFile.FullName.ToLower() == "/sdcard")
-					{
-						imageIndex = 2;
-					}
-					else
-					{
-						imageIndex = 0;
-					}
+					imageIndex = 2;
 				}
 				else
 				{
-					imageIndex = 1;
+					if (baseFile is XDAndroidExplorer.Core.IO.Folder)
+					{
+					
+						imageIndex = 0;					
+					}
+					else
+					{
+						imageIndex = 1;
+					}
 				}
 				newLvi.ImageIndex = imageIndex;
 				newLvi.Tag = baseFile;
@@ -148,6 +160,7 @@ namespace XDAndroidExplorer
 			XDAndroidExplorer.Core.IO.BaseFile baseFile = lvExplorer.SelectedItems[0].Tag as XDAndroidExplorer.Core.IO.BaseFile;
 			if (baseFile is XDAndroidExplorer.Core.IO.File)
 			{
+				CurrentFolder = new XDAndroidExplorer.Core.IO.Folder(baseFile.FullName);
 			}
 			else if (baseFile is XDAndroidExplorer.Core.IO.Folder)
 			{
@@ -328,12 +341,17 @@ namespace XDAndroidExplorer
 		{
 			ExecuteShellCommand("poweroff -f");
 		}
+				
+		void BtnMountSystemWriteClick(object sender, EventArgs e)
+		{
+			ExecuteShellCommand("mount -o remount /dev/block/mtdblock0 /system");
+		}
 		#endregion
 
 		#region 关于功能选项卡
 		private void pbScbeta_Click(object sender, EventArgs e)
 		{
-			Process.Start("http://bbs.scbeta.com");
+			Process.Start("http://blog.scbeta.com");
 		}
 		#endregion
 	}
