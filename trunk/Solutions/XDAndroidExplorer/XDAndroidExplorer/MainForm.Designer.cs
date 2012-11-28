@@ -479,7 +479,8 @@
 			this.textBox1.ReadOnly = true;
 			this.textBox1.Size = new System.Drawing.Size(566, 281);
 			this.textBox1.TabIndex = 3;
-			this.textBox1.Text = "Made by aaaSoft\r\nEmail:scbeta@qq.com\r\n\r\n更新时间：2012-11-22";
+			this.textBox1.Text = "Made by aaaSoft\r\nEmail:scbeta@qq.com\r\n\r\n更新时间：2012-11-22\r\n\r\n挂载/system分区为可写命令：\r\nmou" +
+			"nt -o remount /dev/block/mtdblock0 /system";
 			// 
 			// lblVersion
 			// 
