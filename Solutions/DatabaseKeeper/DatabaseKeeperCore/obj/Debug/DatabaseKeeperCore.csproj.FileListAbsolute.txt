@@ -1,0 +1,5 @@
+E:\工作项目\code.sccin.com\dev\Solutions\DatabaseKeeper\DatabaseKeeperCore\obj\Debug\ResolveAssemblyReference.cache
+E:\工作项目\code.sccin.com\dev\Solutions\DatabaseKeeper\DatabaseKeeperCore\bin\Debug\DatabaseKeeperCore.dll
+E:\工作项目\code.sccin.com\dev\Solutions\DatabaseKeeper\DatabaseKeeperCore\bin\Debug\DatabaseKeeperCore.pdb
+E:\工作项目\code.sccin.com\dev\Solutions\DatabaseKeeper\DatabaseKeeperCore\obj\Debug\DatabaseKeeperCore.dll
+E:\工作项目\code.sccin.com\dev\Solutions\DatabaseKeeper\DatabaseKeeperCore\obj\Debug\DatabaseKeeperCore.pdb
