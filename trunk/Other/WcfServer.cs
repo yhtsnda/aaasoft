@@ -19,29 +19,9 @@ namespace DCIMSServiceSimulator.Utils
     /// </summary>
     public class WcfServer
     {
-        /// <summary>
-        /// WCF绑定类型
-        /// </summary>
-        public enum WcfBindingType
-        {
-            HTTP = 1,
-            NetTcp = 2
-        }
-
-        private String host;
-        private Int32 listenPort;
+        private String baseAddress;
         private Type[] wcfServiceTypes;
         private Dictionary<Type, ServiceHost> serviceHostDict;
-
-        private WcfBindingType _BindingType = WcfBindingType.HTTP;
-        /// <summary>
-        /// WCF绑定类型
-        /// </summary>
-        public WcfBindingType BindingType
-        {
-            get { return _BindingType; }
-            set { _BindingType = value; }
-        }
 
         /// <summary>
         /// 服务绑定事件参数
@@ -69,28 +49,26 @@ namespace DCIMSServiceSimulator.Utils
         /// <summary>
         /// WcfServer构造函数，将扫描传入的程序集中所有的WCF服务类
         /// </summary>
-        /// <param name="host">主机</param>
-        /// <param name="listenPort">监听端口</param>
+        /// <param name="baseAddress">基础地址</param>
         /// <param name="assembly">要扫描的程序集</param>
-        public WcfServer(String host, Int32 listenPort, Assembly assembly)
+        public WcfServer(String baseAddress, Assembly assembly)
         {
-            init(host, listenPort, getWcfTypes(assembly));
+            init(baseAddress, getWcfTypes(assembly));
         }
 
         /// <summary>
         /// WcfServer构造函数
         /// </summary>
-        /// <param name="host">主机</param>
-        /// <param name="listenPort">监听端口</param>
+        /// <param name="baseAddress">基础地址</param>
         /// <param name="wcfServiceTypes">WCF服务类型数组</param>
-        public WcfServer(String host, Int32 listenPort, params Type[] wcfServiceTypes)
+        public WcfServer(String baseAddress, params Type[] wcfServiceTypes)
         {
-            init(host, listenPort, wcfServiceTypes);
+            init(baseAddress, wcfServiceTypes);
         }
-        private void init(String host, Int32 listenPort, Type[] wcfServiceTypes)
+        private void init(String baseAddress, Type[] wcfServiceTypes)
         {
-            this.host = host;
-            this.listenPort = listenPort;
+            if (!baseAddress.EndsWith("/")) baseAddress += "/";
+            this.baseAddress = baseAddress;
             this.wcfServiceTypes = wcfServiceTypes;
             serviceHostDict = new Dictionary<Type, ServiceHost>();
         }
@@ -139,17 +117,14 @@ namespace DCIMSServiceSimulator.Utils
             ServiceMetadataBehavior serviceBehavior = new ServiceMetadataBehavior();
             Binding mexBinding = null;
 
-            switch (BindingType)
+            if (baseAddress.StartsWith("http://"))
             {
-                case WcfBindingType.HTTP:
-                    protocolPrefix = "http";
-                    serviceBehavior.HttpGetEnabled = true;
-                    mexBinding = MetadataExchangeBindings.CreateMexHttpBinding();
-                    break;
-                case WcfBindingType.NetTcp:
-                    protocolPrefix = "net.tcp";
-                    mexBinding = MetadataExchangeBindings.CreateMexTcpBinding();
-                    break;
+                serviceBehavior.HttpGetEnabled = true;
+                mexBinding = MetadataExchangeBindings.CreateMexHttpBinding();
+            }
+            else if (baseAddress.StartsWith("net.tcp://"))
+            {
+                mexBinding = MetadataExchangeBindings.CreateMexTcpBinding();
             }
 
             //事件参数
@@ -161,7 +136,7 @@ namespace DCIMSServiceSimulator.Utils
             if (ServiceBinding != null) ServiceBinding(this, args);
 
             //得到URL
-            String url = String.Format("{0}://{1}:{2}/{3}/", protocolPrefix, host, listenPort, args.Address);
+            String url = baseAddress + args.Address;
             System.ServiceModel.ServiceHost serviceHost = new System.ServiceModel.ServiceHost(wcfType, new Uri(url));
             serviceHost.Description.Behaviors.Add(serviceBehavior);
             ServiceEndpoint mexEndpoint = new ServiceMetadataEndpoint(mexBinding, new EndpointAddress(url + "mex"));
