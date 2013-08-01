@@ -1,4 +1,9 @@
-﻿using System;
+﻿//-------------------------
+// 作者：张鹏
+// 邮箱：scbeta@qq.com
+// 时间：2013-8-1
+//-------------------------
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -40,6 +45,14 @@ namespace DCIMSServiceSimulator.Utils
             /// 地址(除了协议，主机，端口部分)
             /// </summary>
             public String Address { get; set; }
+            /// <summary>
+            /// 服务元数据行为
+            /// </summary>
+            public ServiceMetadataBehavior ServiceMetadataBehavior { get; set; }
+            /// <summary>
+            /// MEX终结点地址(相对于服务地址)
+            /// </summary>
+            public string MexEndpointAddress { get; set; }
         }
         /// <summary>
         /// 服务绑定时
@@ -95,6 +108,7 @@ namespace DCIMSServiceSimulator.Utils
             return null;
         }
 
+        //得到程序集中的所有WCF服务类
         private Type[] getWcfTypes(Assembly assembly)
         {
             List<Type> wcfTypeList = new List<Type>();
@@ -126,20 +140,26 @@ namespace DCIMSServiceSimulator.Utils
             {
                 mexBinding = MetadataExchangeBindings.CreateMexTcpBinding();
             }
+            else
+            {
+                throw new NotSupportedException("不支持的协议前缀。" + baseAddress);
+            }
 
             //事件参数
             ServiceBindingEventArgs args = new ServiceBindingEventArgs();
             args.Address = interfaceType.Name;
             args.ContractInterface = interfaceType;
             args.ServiceClass = wcfType;
+            args.ServiceMetadataBehavior = serviceBehavior;
+            args.MexEndpointAddress = "mex";
             //触发“服务绑定时”事件
             if (ServiceBinding != null) ServiceBinding(this, args);
 
             //得到URL
-            String url = baseAddress + args.Address;
+            String url = baseAddress + args.Address + "/";
             System.ServiceModel.ServiceHost serviceHost = new System.ServiceModel.ServiceHost(wcfType, new Uri(url));
-            serviceHost.Description.Behaviors.Add(serviceBehavior);
-            ServiceEndpoint mexEndpoint = new ServiceMetadataEndpoint(mexBinding, new EndpointAddress(url + "mex"));
+            serviceHost.Description.Behaviors.Add(args.ServiceMetadataBehavior);
+            ServiceEndpoint mexEndpoint = new ServiceMetadataEndpoint(mexBinding, new EndpointAddress(url + args.MexEndpointAddress));
             serviceHost.AddServiceEndpoint(mexEndpoint);
 
             serviceHost.AddDefaultEndpoints();
